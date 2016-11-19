@@ -35,9 +35,15 @@ gulp.task('style', function () {
     .pipe(gulp.dest('build/css'));
 });
 
+const sourcemaps = require('gulp-sourcemaps');
+const babel = require('gulp-babel');
+
 gulp.task('scripts', function () {
   return gulp.src('js/**/*.js')
     .pipe(plumber())
+    .pipe(sourcemaps.init())
+    .pipe(babel())
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('build/js/'));
 });
 
