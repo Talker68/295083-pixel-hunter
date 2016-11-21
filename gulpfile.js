@@ -11,6 +11,9 @@ const mqpacker = require('css-mqpacker');
 const minify = require('gulp-csso');
 const rename = require('gulp-rename');
 const imagemin = require('gulp-imagemin');
+const sourcemaps = require('gulp-sourcemaps');
+const babel = require('gulp-babel');
+const webpack = require('gulp-webpack');
 
 gulp.task('style', function () {
   gulp.src('sass/style.scss')
@@ -35,15 +38,20 @@ gulp.task('style', function () {
     .pipe(gulp.dest('build/css'));
 });
 
-const sourcemaps = require('gulp-sourcemaps');
-const babel = require('gulp-babel');
-
 gulp.task('scripts', function () {
-  return gulp.src('js/**/*.js')
+  return gulp.src('js/main.js')
     .pipe(plumber())
-    .pipe(sourcemaps.init())
-    .pipe(babel())
-    .pipe(sourcemaps.write('.'))
+    .pipe(webpack({
+      devtool: 'source-map',
+      module: {
+        loaders: [
+          { test: /\.js$/, loader: 'babel-loader' },
+        ],
+      },
+      output: {
+       filename: "main.js"
+      }
+    }))
     .pipe(gulp.dest('build/js/'));
 });
 
