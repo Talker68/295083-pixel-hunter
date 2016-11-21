@@ -2,6 +2,9 @@
 
 const del = require('del');
 const gulp = require('gulp');
+const webpack = require('gulp-webpack');
+const sourcemaps = require('gulp-sourcemaps');
+const babel = require('gulp-babel');
 const sass = require('gulp-sass');
 const plumber = require('gulp-plumber');
 const postcss = require('gulp-postcss');
@@ -11,9 +14,6 @@ const mqpacker = require('css-mqpacker');
 const minify = require('gulp-csso');
 const rename = require('gulp-rename');
 const imagemin = require('gulp-imagemin');
-const sourcemaps = require('gulp-sourcemaps');
-const babel = require('gulp-babel');
-const webpack = require('gulp-webpack');
 
 gulp.task('style', function () {
   gulp.src('sass/style.scss')
@@ -49,7 +49,7 @@ gulp.task('scripts', function () {
         ],
       },
       output: {
-       filename: "main.js"
+        filename: 'main.js'
       }
     }))
     .pipe(gulp.dest('build/js/'));
