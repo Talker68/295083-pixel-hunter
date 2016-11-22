@@ -1,65 +1,62 @@
-(function () {
+import intro from './Templates/intro.js';
+import greeting from './Templates/greeting.js';
+import rules from './Templates/rules.js';
+import game1 from './Templates/game1.js';
+import game2 from './Templates/game2.js';
+import game3 from './Templates/game3.js';
+import stats from './Templates/stats.js';
 
-  const loadTemplate = (templateName) => {
-    let node = document.createElement('span');
-    let template = document.getElementById(templateName);
-    let content = template.content ? template.content : template;
-    node.appendChild(content);
-    return node.cloneNode(true);
-  };
+// Rules
+let rulesElement = rules;
+let rulesSubmit = rulesElement.querySelector('.rules__button');
 
+rulesElement.querySelector('.rules__input').oninput = function () {
+  if (this.value) {
+    rulesSubmit.removeAttribute('disabled');
+  } else {
+    rulesSubmit.setAttribute('disabled', '');
+  }
+};
 
-  // Rules
-  let rulesElement = loadTemplate('rules');
-  let rulesSubmit = rulesElement.querySelector('.rules__button');
+// Slides changer
 
-  rulesElement.querySelector('.rules__input').oninput = function () {
-    if (this.value) {
-      rulesSubmit.removeAttribute('disabled');
-    } else {
-      rulesSubmit.setAttribute('disabled', '');
-    }
-  };
+let mainElement = document.getElementById('main');
 
-  // Slides changer
+let switcher = document.createElement('div');
+switcher.innerHTML = '' +
+  '<span class="prev"><img src="img/arrow_left.svg" alt="Left" width="50" height="50"></span>   ' +
+  '<span class="next"><img src="img/arrow_right.svg" alt="Right" width="50" height="50"></span>';
+switcher.style.cssText = 'text-align: center';
+mainElement.after(switcher);
 
-  let mainElement = document.getElementById('main');
+let slides = [
+  intro,
+  greeting,
+  rulesElement,
+  game1,
+  game2,
+  game3,
+  stats
+];
+let current = -1;
 
-  let switcher = document.createElement('div');
-  switcher.innerHTML = '' +
-    '<span class="prev"><img src="img/arrow_left.svg" alt="Left" width="50" height="50"></span>   ' +
-    '<span class="next"><img src="img/arrow_right.svg" alt="Right" width="50" height="50"></span>';
-  switcher.style.cssText = 'text-align: center';
-  mainElement.after(switcher);
+const select = (index)=> {
+  current = index;
+  mainElement.innerHTML = '';
+  mainElement.appendChild(slides[index]);
+};
 
-  let slides = [
-    loadTemplate('intro'),
-    loadTemplate('greeting'),
-    rulesElement,
-    loadTemplate('game-1'),
-    loadTemplate('game-2'),
-    loadTemplate('game-3'),
-    loadTemplate('stats')
-  ];
-  let current = -1;
+document.querySelector('.next').onclick = function (e) {
+  e.preventDefault();
 
-  const select = (index)=> {
-    current = index;
-    mainElement.innerHTML = '';
-    mainElement.appendChild(slides[index]);
-  };
+  select(current + 1);
+};
 
-  document.querySelector('.next').onclick = function (e) {
-    e.preventDefault();
+document.querySelector('.prev').onclick = function (e) {
+  e.preventDefault();
 
-    select(current + 1);
-  };
+  select(current - 1);
+};
 
-  document.querySelector('.prev').onclick = function (e) {
-    e.preventDefault();
+select(0);
 
-    select(current - 1);
-  };
-
-  select(0);
-})();
