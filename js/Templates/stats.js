@@ -1,4 +1,4 @@
-import getElementFromTemplate from './getElementFromTemplate.js'
+import getElementFromTemplate from '../Helpers/getElementFromTemplate.js';
 
 const template = `<header class="header">
     <div class="header__back">
@@ -107,8 +107,7 @@ const template = `<header class="header">
         <td colspan="5" class="result__total  result__total--final">950</td>
       </tr>
     </table>
-  </div>`
-  ;
+  </div>`;
 
 const stats = getElementFromTemplate(template);
 export default stats;

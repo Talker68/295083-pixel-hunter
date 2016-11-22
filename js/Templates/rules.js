@@ -1,4 +1,4 @@
-import getElementFromTemplate from './getElementFromTemplate.js'
+import getElementFromTemplate from '../Helpers/getElementFromTemplate.js';
 
 const template = `<header class="header">
     <div class="header__back">
@@ -23,8 +23,7 @@ const template = `<header class="header">
       <input class="rules__input" type="text" placeholder="Ваше Имя">
       <button class="rules__button  continue" type="submit" disabled>Go!</button>
     </form>
-  </div>`
-  ;
+  </div>`;
 
 const rules = getElementFromTemplate(template);
 export default rules;

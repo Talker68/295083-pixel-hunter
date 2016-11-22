@@ -1,6 +1,6 @@
-import getElementFromTemplate from './getElementFromTemplate.js'
+import getElementFromTemplate from '../Helpers/getElementFromTemplate.js';
 
-const template = ` <div class="greeting  central--blur">
+const template = `<div class="greeting  central--blur">
     <div class="greeting__logo"><img src="img/logo_big.png" width="201" height="89" alt="Pixel Hunter"></div>
     <h1 class="greeting__asterisk">*</h1>
     <div class="greeting__challenge">
