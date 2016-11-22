@@ -3,8 +3,6 @@
 const del = require('del');
 const gulp = require('gulp');
 const webpack = require('gulp-webpack');
-const sourcemaps = require('gulp-sourcemaps');
-const babel = require('gulp-babel');
 const sass = require('gulp-sass');
 const plumber = require('gulp-plumber');
 const postcss = require('gulp-postcss');
@@ -44,9 +42,14 @@ gulp.task('scripts', function () {
     .pipe(webpack({
       devtool: 'source-map',
       module: {
-        loaders: [
-          { test: /\.js$/, loader: 'babel-loader' },
-        ],
+        loaders: [{
+          test: /.js?$/,
+          loader: 'babel-loader',
+          exclude: /node_modules/,
+          query: {
+            presets: ['es2015']
+          }
+        }]
       },
       output: {
         filename: 'main.js'
