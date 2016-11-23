@@ -24,3 +24,4 @@ const handler = (e) => renderModule(rules);
 activeElement.addEventListener('click', handler);
 
 export default greeting;
+

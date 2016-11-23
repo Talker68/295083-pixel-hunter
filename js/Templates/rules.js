@@ -43,7 +43,8 @@ const activeElement = rules.querySelector('.rules__form');
 const handler = (e) => {
   e.preventDefault();
   renderModule(game1);
-}
-activeElement.addEventListener('submit', handler)
+};
+activeElement.addEventListener('submit', handler);
 
 export default rules;
+

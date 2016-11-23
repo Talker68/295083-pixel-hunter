@@ -1,4 +1,6 @@
 import getElementFromTemplate from '../Helpers/getElementFromTemplate.js';
+import game3 from './game3.js';
+import renderModule from '../Helpers/renderModule';
 
 const template = `<header class="header">
     <div class="header__back">
@@ -46,4 +48,16 @@ const template = `<header class="header">
   </div>`;
 
 const game2 = getElementFromTemplate(template);
+const activeElement = game2.querySelector('.game__content');
+
+const handler = (e) => {
+  console.log(e.target);
+  if (e.target.parentNode.classList.contains('game__answer')) {
+    renderModule(game3);
+  }
+};
+
+activeElement.addEventListener('click', handler);
+
 export default game2;
+

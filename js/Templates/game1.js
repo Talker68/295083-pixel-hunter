@@ -61,12 +61,14 @@ const template = `<header class="header">
 const game1 = getElementFromTemplate(template);
 
 const activeElement = game1.querySelector('.game__content');
-console.log("content", activeElement);
+
 const handler = (e) => {
-  console.log("tarhet", e.target);
-  if (e.target.classList.contains('game__answer')) renderModule(game2);
+  if (e.target.parentNode.classList.contains('game__answer')) {
+    renderModule(game2);
   }
+};
 
 activeElement.addEventListener('click', handler);
 
 export default game1;
+
