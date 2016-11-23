@@ -1,4 +1,6 @@
 import getElementFromTemplate from '../Helpers/getElementFromTemplate.js';
+import game1 from './game1.js';
+import renderModule from '../Helpers/renderModule';
 
 const template = `<header class="header">
     <div class="header__back">
@@ -26,4 +28,22 @@ const template = `<header class="header">
   </div>`;
 
 const rules = getElementFromTemplate(template);
+let rulesSubmit = rules.querySelector('.rules__button');
+
+rules.querySelector('.rules__input').oninput = function () {
+  if (this.value) {
+    rulesSubmit.removeAttribute('disabled');
+  } else {
+    rulesSubmit.setAttribute('disabled', '');
+  }
+};
+
+const activeElement = rules.querySelector('.rules__form');
+
+const handler = (e) => {
+  e.preventDefault();
+  renderModule(game1);
+}
+activeElement.addEventListener('submit', handler)
+
 export default rules;

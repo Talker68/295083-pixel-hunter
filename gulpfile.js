@@ -101,6 +101,7 @@ gulp.task('serve', ['assemble'], function () {
   gulp.watch('sass/**/*.{scss,sass}', ['style']);
 
   gulp.watch('*.html').on('change', (e) => {
+    console.log(e.type);
     if (e.type !== 'deleted') {
       gulp.start('copy-html');
     }

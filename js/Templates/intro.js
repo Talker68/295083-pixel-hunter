@@ -1,4 +1,6 @@
 import getElementFromTemplate from '../Helpers/getElementFromTemplate.js';
+import greeting from './greeting.js';
+import renderModule from '../Helpers/renderModule';
 
 const template = `
   <div id="intro" class="intro">
@@ -8,4 +10,9 @@ const template = `
   </div>`;
 
 const intro = getElementFromTemplate(template);
+const activeElement = intro.querySelector('.intro__asterisk');
+
+const handler = (e) => renderModule(greeting);
+activeElement.addEventListener('click', handler);
+
 export default intro;
