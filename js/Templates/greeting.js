@@ -1,4 +1,6 @@
 import getElementFromTemplate from '../Helpers/getElementFromTemplate.js';
+import rules from './rules.js';
+import renderModule from '../Helpers/renderModule';
 
 const template = `<div class="greeting  central--blur">
     <div class="greeting__logo"><img src="img/logo_big.png" width="201" height="89" alt="Pixel Hunter"></div>
@@ -15,4 +17,10 @@ const template = `<div class="greeting  central--blur">
   </div>`;
 
 const greeting = getElementFromTemplate(template);
+const activeElement = greeting.querySelector('.greeting__continue');
+
+const handler = (e) => renderModule(rules);
+activeElement.addEventListener('click', handler);
+
 export default greeting;
+

@@ -1,4 +1,6 @@
 import getElementFromTemplate from '../Helpers/getElementFromTemplate.js';
+import game2 from './game2.js';
+import renderModule from '../Helpers/renderModule';
 
 const template = `<header class="header">
     <div class="header__back">
@@ -57,4 +59,15 @@ const template = `<header class="header">
   </div>`;
 
 const game1 = getElementFromTemplate(template);
+const activeElement = game1.querySelector('.game__content');
+
+const handler = (e) => {
+  if (e.target.closest('.game__answer')) {
+    renderModule(game2);
+  }
+};
+
+activeElement.addEventListener('click', handler);
+
 export default game1;
+
