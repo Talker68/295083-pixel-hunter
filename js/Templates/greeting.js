@@ -17,7 +17,6 @@ const template = `<div class="greeting  central--blur">
   </div>`;
 
 const greeting = getElementFromTemplate(template);
-
 const activeElement = greeting.querySelector('.greeting__continue');
 
 const handler = (e) => renderModule(rules);

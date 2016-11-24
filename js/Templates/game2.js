@@ -51,8 +51,7 @@ const game2 = getElementFromTemplate(template);
 const activeElement = game2.querySelector('.game__content');
 
 const handler = (e) => {
-  console.log(e.target);
-  if (e.target.parentNode.classList.contains('game__answer')) {
+  if (e.target.closest('.game__answer')) {
     renderModule(game3);
   }
 };

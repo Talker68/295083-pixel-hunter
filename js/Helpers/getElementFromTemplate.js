@@ -5,4 +5,3 @@ const getElementFromTemplate = (templateString) => {
 };
 
 export default getElementFromTemplate;
-

@@ -16,4 +16,3 @@ const handler = (e) => renderModule(greeting);
 activeElement.addEventListener('click', handler);
 
 export default intro;
-
