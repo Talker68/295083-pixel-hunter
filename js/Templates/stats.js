@@ -111,3 +111,4 @@ const template = `<header class="header">
 
 const stats = getElementFromTemplate(template);
 export default stats;
+
