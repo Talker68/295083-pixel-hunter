@@ -1,6 +1,7 @@
-import getElementFromTemplate from '../Helpers/getElementFromTemplate.js';
-import game2 from './game2.js';
+import getElementFromTemplate from '../Helpers/getElementFromTemplate';
+import game2 from './game2';
 import renderModule from '../Helpers/renderModule';
+import {games} from '../../data/gameData';
 
 const template = `<header class="header">
     <div class="header__back">
@@ -9,7 +10,7 @@ const template = `<header class="header">
           <img src="img/logo_small.png" width="101" height="44">
         </span>
     </div>
-    <h1 class="game__timer">NN</h1>
+    <h1 class="game__timer">${games.game2.timer}</h1>
     <div class="game__lives">
       <img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">
       <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
@@ -17,7 +18,7 @@ const template = `<header class="header">
     </div>
   </header>
   <div class="game">
-    <p class="game__task">Угадайте для каждого изображения фото или рисунок?</p>
+    <p class="game__task">${games.game1.task}</p>
     <form class="game__content">
       <div class="game__option">
         <img src="http://placehold.it/468x458" alt="Option 1" width="468" height="458">
