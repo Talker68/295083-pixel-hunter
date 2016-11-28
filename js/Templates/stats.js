@@ -10,7 +10,7 @@ const template = `<header class="header">
   </header>
   <div class="result">
     <h1>Победа!</h1>
-    <table class="result__table">
+        <table class="result__table">
       <tr>
         <td class="result__number">1.</td>
         <td colspan="2">
@@ -111,3 +111,4 @@ const template = `<header class="header">
 
 const stats = getElementFromTemplate(template);
 export default stats;
+
