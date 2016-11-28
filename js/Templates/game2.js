@@ -53,6 +53,7 @@ const activeElement = game2.querySelector('.game__content');
 
 const handler = (e) => {
   if (e.target.closest('.game__answer')) {
+    activeElement.removeEventListener('click', handler);
     renderModule(game3);
   }
 };

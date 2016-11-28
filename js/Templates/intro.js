@@ -12,7 +12,10 @@ const template = `
 const intro = getElementFromTemplate(template);
 const activeElement = intro.querySelector('.intro__asterisk');
 
-const handler = (e) => renderModule(greeting);
+const handler = (e) => {
+  activeElement.removeEventListener('click', handler);
+  renderModule(greeting);
+};
 activeElement.addEventListener('click', handler);
 
 export default intro;

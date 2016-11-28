@@ -36,6 +36,7 @@ const activeElement = rules.querySelector('.rules__form');
 
 const handler = (e) => {
   e.preventDefault();
+  activeElement.removeEventListener('click', handler);
   renderModule(game1);
 };
 activeElement.addEventListener('submit', handler);

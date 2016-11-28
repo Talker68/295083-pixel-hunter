@@ -16,7 +16,10 @@ const template = `<div class="greeting  central--blur">
 const greeting = getElementFromTemplate(template);
 const activeElement = greeting.querySelector('.greeting__continue');
 
-const handler = (e) => renderModule(rules);
+const handler = (e) => {
+  activeElement.removeEventListener('click', handler);
+  renderModule(rules);
+};
 activeElement.addEventListener('click', handler);
 
 export default greeting;
