@@ -23,19 +23,67 @@ const metaData = {
   },
 };
 
-const games ={
-  game1: {
-    timer: 'NN',
-    task: 'Угадайте для каждого изображения фото или рисунок?'
-  },
-  game2: {
-    timer: 'NN',
-    task: 'Угадай, фото или рисунок?'
-  },
-  game3: {
-    timer: 'NN',
-    task: 'Найдите рисунок среди изображений'
-  },
+let Game1 = class {
+
+  constructor(args) {
+    this.type = 1;
+    this.timer = 0;
+    this.isCorrectAnswer = 'false';
+    this.question = {
+      text: args.questionText,
+      picture1: {
+        type: args.picture1Type,
+        URL: args.picture1URL
+      },
+      picture2: {
+        type: args.picture2Type,
+        URL: args.picture2URL
+      }
+    }
+  }
+
 };
 
-export  {metaData, games};
+let Game2 =class {
+
+  constructor(args) {
+    this.type = 2;
+    this.timer = 0;
+    this.isCorrectAnswer = 'false';
+    this.question = {
+      text: args.questionText,
+      picture1: {
+        type: args.picture1Type,
+        URL: args.picture1URL
+      },
+    }
+  }
+
+}
+
+let Game3 = class {
+
+  constructor(args) {
+    this.type = 3;
+    this.timer = 0;
+    this.isCorrectAnswer = 'false';
+    this.question = {
+      text: args.questionText,
+      picture1: {
+        type: args.picture1Type,
+        URL: args.picture1URL
+      },
+      picture2: {
+        type: args.picture2Type,
+        URL: args.picture2URL
+      },
+      picture3: {
+        type: args.picture3Type,
+        URL: args.picture3URL
+      }
+    }
+  }
+
+};
+
+export  {metaData, Game1, Game2, Game3};
