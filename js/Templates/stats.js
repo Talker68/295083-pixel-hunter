@@ -1,6 +1,8 @@
 import getElementFromTemplate from '../Helpers/getElementFromTemplate.js';
 
-const template = `<header class="header">
+const stats = ()=> {
+
+  const template = `<header class="header">
     <div class="header__back">
       <span class="back">
         <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
@@ -109,6 +111,8 @@ const template = `<header class="header">
     </table>
   </div>`;
 
-const stats = getElementFromTemplate(template);
+  const statsNode = getElementFromTemplate(template);
+  return statsNode;
+};
 export default stats;
 

@@ -1,9 +1,13 @@
 import getElementFromTemplate from '../Helpers/getElementFromTemplate';
-import game1 from './game1';
 import renderModule from '../Helpers/renderModule';
-import {metaData} from '../../data/gameData';
+import {generateGameArr} from '../Helpers/generateGameArr';
+import gameNode from '../Templates/game';
 
-const template = `<header class="header">
+// Создаем массив игр
+let gamesArr = [];
+
+const rules = (data) => {
+  const template = `<header class="header">
     <div class="header__back">
       <span class="back">
         <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
@@ -12,8 +16,8 @@ const template = `<header class="header">
     </div>
   </header>
   <div class="rules  central--none">
-    <h1 class="rules__title">${metaData.rules.title}</h1>
-    <p class="rules__description">${metaData.rules.text}
+    <h1 class="rules__title">${data.rules.title}</h1>
+    <p class="rules__description">${data.rules.text}
     </p>
     <form class="rules__form">
       <input class="rules__input" type="text" placeholder="Ваше Имя">
@@ -21,26 +25,29 @@ const template = `<header class="header">
     </form>
   </div>`;
 
-const rules = getElementFromTemplate(template);
-let rulesSubmit = rules.querySelector('.rules__button');
+  const rulesNode = getElementFromTemplate(template);
+  let rulesSubmit = rulesNode.querySelector('.rules__button');
 
-rules.querySelector('.rules__input').oninput = function () {
-  if (this.value) {
-    rulesSubmit.removeAttribute('disabled');
-  } else {
-    rulesSubmit.setAttribute('disabled', '');
-  }
+  rulesNode.querySelector('.rules__input').oninput = function () {
+    if (this.value) {
+      rulesSubmit.removeAttribute('disabled');
+    } else {
+      rulesSubmit.setAttribute('disabled', '');
+    }
+  };
+
+  const activeElement = rulesNode.querySelector('.rules__form');
+
+  const handler = (e) => {
+    e.preventDefault();
+    gamesArr = generateGameArr(); // при вводе имени создаем масив игр
+    activeElement.removeEventListener('click', handler);
+    renderModule(gameNode(gamesArr[0]));
+  };
+  activeElement.addEventListener('submit', handler);
+  return rulesNode;
 };
 
-const activeElement = rules.querySelector('.rules__form');
-
-const handler = (e) => {
-  e.preventDefault();
-  activeElement.removeEventListener('click', handler);
-  renderModule(game1);
-};
-activeElement.addEventListener('submit', handler);
-
-export default rules;
+export {rules, gamesArr};
 
 
