@@ -1,7 +1,7 @@
-import getElementFromTemplate from '../Helpers/getElementFromTemplate';
+import getElementFromTemplate from '../Utils/getElementFromTemplate';
 import greeting from './greeting';
-import renderModule from '../Helpers/renderModule';
-import {metaData} from '../../data/gameData';
+import renderModule from '../Utils/renderModule';
+import {metaData} from '../../Models/gameData';
 
 
 const intro = (data) => {
@@ -15,11 +15,11 @@ const intro = (data) => {
   const introNode = getElementFromTemplate(template);
   const activeElement = introNode.querySelector('.intro__asterisk');
 
-  const handler = (e) => {
-    activeElement.removeEventListener('click', handler);
+  const showGreeting = (e) => {
+    activeElement.removeEventListener('click', showGreeting);
     renderModule(greeting(metaData));
   };
-  activeElement.addEventListener('click', handler);
+  activeElement.addEventListener('click', showGreeting);
 
   return introNode;
 };

@@ -1,7 +1,7 @@
-import getElementFromTemplate from '../Helpers/getElementFromTemplate';
+import getElementFromTemplate from '../Utils/getElementFromTemplate';
 import {rules} from './rules';
-import renderModule from '../Helpers/renderModule';
-import {metaData} from '../../data/gameData';
+import renderModule from '../Utils/renderModule';
+import {metaData} from '../../Models/gameData';
 
 const greeting = (data) => {
   const template = `<div class="greeting  central--blur">
@@ -17,11 +17,11 @@ const greeting = (data) => {
   const greetingNode = getElementFromTemplate(template);
   const activeElement = greetingNode.querySelector('.greeting__continue');
 
-  const handler = (e) => {
-    activeElement.removeEventListener('click', handler);
+  const showRules = (e) => {
+    activeElement.removeEventListener('click', showRules);
     renderModule(rules(metaData));
   };
-  activeElement.addEventListener('click', handler);
+  activeElement.addEventListener('click', showRules);
 
   return greetingNode;
 };

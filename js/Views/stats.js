@@ -1,4 +1,4 @@
-import getElementFromTemplate from '../Helpers/getElementFromTemplate.js';
+import getElementFromTemplate from '../Utils/getElementFromTemplate.js';
 
 const stats = ()=> {
 

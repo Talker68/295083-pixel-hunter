@@ -1,5 +1,5 @@
-import getElementFromTemplate from '../Helpers/getElementFromTemplate';
-import {handler12, handler3} from '../Modules/gameHandlers';
+import getElementFromTemplate from '../Utils/getElementFromTemplate';
+import {runNextGame} from '../Controllers/gameHandlers';
 
 const game = (currentGame) => {
 
@@ -112,13 +112,7 @@ const game = (currentGame) => {
 
   const gameNode = getElementFromTemplate(template);
   const activeElement = gameNode.querySelector('.game__content');
-
-  if (currentGame.type === 1 || currentGame.type === 2) {
-    activeElement.addEventListener('click', handler12);
-  } else {
-    activeElement.addEventListener('click', handler3);
-  }
-
+  activeElement.addEventListener('click', runNextGame);
   return gameNode;
 
 };

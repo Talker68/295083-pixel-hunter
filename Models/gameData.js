@@ -28,7 +28,6 @@ let Game1 = class {
   constructor(args) {
     this.type = 1;
     this.timer = 0;
-    this.isCorrectAnswer = 'false';
     this.question = {
       text: args.questionText,
       picture1: {
@@ -49,7 +48,6 @@ let Game2 =class {
   constructor(args) {
     this.type = 2;
     this.timer = 0;
-    this.isCorrectAnswer = 'false';
     this.question = {
       text: args.questionText,
       picture1: {
@@ -66,8 +64,7 @@ let Game3 = class {
   constructor(args) {
     this.type = 3;
     this.timer = 0;
-    this.isCorrectAnswer = 'false';
-    this.question = {
+        this.question = {
       text: args.questionText,
       picture1: {
         type: args.picture1Type,
