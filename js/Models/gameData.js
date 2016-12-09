@@ -1,3 +1,34 @@
+
+const numberOfGames = 10;
+const numberOfLives =  3;
+
+const gameState = {
+  currentLevel : 0,
+  lifeNumber : 3,
+  currentTime : 0
+};
+
+const Statistics = class {
+  constructor(args) {
+    this.gameNumber = args.gameNumber;
+    this.time = 0;
+    this.isCorrect = false;
+    this.answerType = 'unknown';
+  }
+
+  setStats() {
+    this.answerType = "wrong";
+
+    if (this.isCorrect && this.time < 10) {
+      this.answerType = "fast";
+    } else if (this.isCorrect && this.time > 20 && this.time < 31) {
+      this.answerType = "slow";
+    } else if (this.isCorrect) {
+      this.answerType = 'correct';
+    }
+  }
+};
+
 const metaData = {
   intro: {
     motto: 'Это не фото. Это рисунок маслом нидерландского художника-фотореалиста Tjalf Sparnaay.'
@@ -23,11 +54,10 @@ const metaData = {
   },
 };
 
-let Game1 = class {
+const Game1 = class {
 
   constructor(args) {
     this.type = 1;
-    this.timer = 0;
     this.question = {
       text: args.questionText,
       picture1: {
@@ -43,11 +73,10 @@ let Game1 = class {
 
 };
 
-let Game2 =class {
+const Game2 =class {
 
   constructor(args) {
     this.type = 2;
-    this.timer = 0;
     this.question = {
       text: args.questionText,
       picture1: {
@@ -59,11 +88,10 @@ let Game2 =class {
 
 }
 
-let Game3 = class {
+const Game3 = class {
 
   constructor(args) {
     this.type = 3;
-    this.timer = 0;
         this.question = {
       text: args.questionText,
       picture1: {
@@ -83,4 +111,4 @@ let Game3 = class {
 
 };
 
-export  {metaData, Game1, Game2, Game3};
+export  {metaData, Game1, Game2, Game3, Statistics, numberOfGames, numberOfLives, gameState};

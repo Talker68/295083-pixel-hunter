@@ -1,7 +1,7 @@
 import getElementFromTemplate from '../Utils/getElementFromTemplate';
 import greeting from './greeting';
 import renderModule from '../Utils/renderModule';
-import {metaData} from '../../Models/gameData';
+import {metaData} from '../Models/gameData';
 
 
 const intro = (data) => {

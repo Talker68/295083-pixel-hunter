@@ -1,7 +1,7 @@
 import getElementFromTemplate from '../Utils/getElementFromTemplate';
 import {rules} from './rules';
 import renderModule from '../Utils/renderModule';
-import {metaData} from '../../Models/gameData';
+import {metaData} from '../Models/gameData';
 
 const greeting = (data) => {
   const template = `<div class="greeting  central--blur">

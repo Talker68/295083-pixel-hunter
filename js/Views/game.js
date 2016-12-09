@@ -1,7 +1,7 @@
 import getElementFromTemplate from '../Utils/getElementFromTemplate';
 import {runNextGame} from '../Controllers/gameHandlers';
 
-const game = (currentGame) => {
+const gameHeader = () => {
 
   const header = `<header class="header">
     <div class="header__back">
@@ -10,20 +10,25 @@ const game = (currentGame) => {
           <img src="img/logo_small.png" width="101" height="44">
         </span>
     </div>
-    <h1 class="game__timer">${currentGame.timer}</h1>
+    <h1 class="game__timer"></h1>
     <div class="game__lives">
-      <img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">
+      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
       <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
       <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
     </div>
-  </header>`;
+  </header> <div class="game">`;
 
+
+  return header;
+};
+
+const statFooter = () => {
   const stat = `<div class="stats">
       <ul class="stats">
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--correct"></li>
+        <li class="stats__result stats__result--unknown"></li>
+        <li class="stats__result stats__result--unknown"></li>
+        <li class="stats__result stats__result--unknown"></li>
+        <li class="stats__result stats__result--unknown"></li>
         <li class="stats__result stats__result--unknown"></li>
         <li class="stats__result stats__result--unknown"></li>
         <li class="stats__result stats__result--unknown"></li>
@@ -34,11 +39,17 @@ const game = (currentGame) => {
     </div>
   </div>`;
 
+
+  return stat;
+};
+
+const game = (currentGame, gameNumber = 1) => {
+
   let template = '';
 
   switch (currentGame.type) {
     case 1: {
-      const gameType1 = `  <div class="game">
+      const gameType1 = ` <div class = "game__area">
     <p class="game__task">${currentGame.question.text}</p>
     <form class="game__content">
       <div class="game__option">
@@ -63,14 +74,14 @@ const game = (currentGame) => {
           <span>Рисунок</span>
         </label>
       </div>
-    </form>`;
+    </form></div>`;
 
-      template = header + gameType1 + stat;
+      template = gameType1;
       break;
     }
 
     case 2: {
-      const gameType2 = `<div class="game">
+      const gameType2 = `<div class = "game__area">
     <p class="game__task">${currentGame.question.text}</p>
     <form class="game__content  game__content--wide">
       <div class="game__option">
@@ -84,37 +95,44 @@ const game = (currentGame) => {
           <span>Рисунок</span>
         </label>
       </div>
-    </form>`;
+    </form></div>`;
 
-      template = header + gameType2 + stat;
+      template = gameType2;
       break;
     }
 
     case 3: {
-      const gameType3 = `<div class="game">
+      const gameType3 = `<div class = "game__area">
     <p class="game__task">${currentGame.question.text}</p>
     <form class="game__content  game__content--triple">
-      <div class="game__option">
+      <div class="game__option" id="picture1" >
         <img src=${currentGame.question.picture1.URL} alt="Option 1" width="304" height="455">
       </div>
-      <div class="game__option  game__option--selected">
-        <img src=${currentGame.question.picture2.URL} alt="Option 1" width="304" height="455">
+      <div class="game__option game__option--selected" id="picture2">
+        <img src=${currentGame.question.picture2.URL} alt="Option 2" width="304" height="455">
       </div>
-      <div class="game__option">
-        <img src=${currentGame.question.picture3.URL} alt="Option 1" width="304" height="455">
+      <div class="game__option" id="picture3">
+        <img src=${currentGame.question.picture3.URL} alt="Option 3" width="304" height="455">
       </div>
-    </form>`;
+    </form></div>`;
 
-      template = header + gameType3 + stat;
+      template = gameType3;
       break;
     }
   }
-
-  const gameNode = getElementFromTemplate(template);
+  let gameNode;
+  if(gameNumber == 0) {
+    gameNode = getElementFromTemplate(gameHeader() + template  + statFooter() );
+  } else {
+    gameNode = getElementFromTemplate(template );
+  }
+  console.log(gameNumber);
+  console.log(gameNode);
   const activeElement = gameNode.querySelector('.game__content');
   activeElement.addEventListener('click', runNextGame);
+
   return gameNode;
 
 };
 
-export default game;
+export {game, gameHeader, statFooter};
