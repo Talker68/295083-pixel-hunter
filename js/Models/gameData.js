@@ -1,4 +1,3 @@
-
 const numberOfGames = 10;
 const numberOfLives =  3;
 
@@ -108,7 +107,6 @@ const Game3 = class {
       }
     }
   }
-
 };
 
 export  {metaData, Game1, Game2, Game3, Statistics, numberOfGames, numberOfLives, gameState};

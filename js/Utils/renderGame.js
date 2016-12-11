@@ -1,5 +1,5 @@
 
-const renderGame = (gameNode)=> {
+const renderGameNode = (gameNode)=> {
 
   let mainElement = document.querySelector('.game__area');
   mainElement.innerHTML = '';
@@ -7,4 +7,4 @@ const renderGame = (gameNode)=> {
 
 };
 
-export default renderGame;
+export default renderGameNode;

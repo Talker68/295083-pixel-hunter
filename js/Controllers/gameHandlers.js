@@ -1,9 +1,72 @@
 import renderModule from '../Utils/renderModule';
-import renderGame from '../Utils/renderGame';
+import renderGameNode from '../Utils/renderGame';
 import {gamesArr, statsArr, timer} from '../Controllers/startGame';
-import {game, gameHeader, statFooter} from '../Views/game';
+import game from '../Views/game-main';
 import stats from '../Views/stats';
 import {numberOfGames, gameState} from '../Models/gameData';
+
+const renderGameStatBar = (gameNumber) => {
+  let PreviousGameResultNode = document.querySelector(`ul.stats li:nth-child(${gameNumber + 1})`);
+  let resultClass = 'stats__result--' + statsArr[gameNumber].answerType;
+  PreviousGameResultNode.classList.remove('stats__result--unknown');
+  PreviousGameResultNode.classList.add(resultClass);
+  };
+
+const renderLifeHeader = (lives)=> {
+  let lifeWidget = '';
+  const lifeImage = '<img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">';
+  const noLifeImage = '<img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">';
+  let lifeHeaderNode = document.querySelector('.game__lives');
+
+  switch (lives) {
+    case 3: {
+      lifeWidget = lifeImage + lifeImage + lifeImage;
+      break;
+    }
+    case 2: {
+      lifeWidget = noLifeImage + lifeImage + lifeImage;
+      break;
+    }
+    case 1: {
+      lifeWidget = noLifeImage + noLifeImage + lifeImage;
+      break;
+    }
+    case 0: {
+      lifeWidget = noLifeImage + noLifeImage + noLifeImage;
+      break;
+    }
+  }
+  ;
+  lifeHeaderNode.innerHTML = lifeWidget;
+};
+
+const renderNextGame = (e) => {
+  e.currentTarget.removeEventListener('click', runNextGame);
+  if (currentGameNumber < numberOfGames - 1 && gameState.lifeNumber > 0) {
+    gameState.currentTime = 0;
+    renderGameNode(game(gamesArr[++currentGameNumber]).gameNode);
+    renderLifeHeader(gameState.lifeNumber);
+    renderGameStatBar(gameState.currentLevel);
+  } else {
+    clearInterval(timer);
+    renderModule(stats());
+  }
+};
+
+const updateStatsInfo = ()=> {
+  if (statsArr[currentGameNumber].answerType === 'wrong') {
+    gameState.lifeNumber = gameState.lifeNumber - 1;
+  }
+};
+
+const moveNextLevel = (e, answer, time,) => {
+  gameState.currentLevel = currentGameNumber;
+  statsArr[currentGameNumber].time = time;
+  statsArr[currentGameNumber].isCorrect = answer;
+  statsArr[currentGameNumber].setStats();
+  updateStatsInfo();
+  renderNextGame(e);
+};
 
 let currentGameNumber = 0;
 
@@ -11,80 +74,6 @@ let currentGameNumber = 0;
 let answerNumberGiven = 0;
 let firstAnswerCorrect = false;
 let secondAnswerCorrect = false;
-
-const gameStatsBar = (gameNumber) => {
-  let liStatsNode = document.querySelector(`ul.stats li:nth-child(${gameNumber + 1})`);
-  liStatsNode.classList.remove('stats__result--unknown');
-  let resultClass = 'stats__result--' + statsArr[gameNumber].answerType;
-  liStatsNode.classList.add(resultClass);
-  console.log('number', gameNumber +1 )
-  console.log(statsArr[gameNumber].answerType);
-  console.log(liStatsNode);
-};
-
-const updateLifeHeader = (lives)=> {
-  let lifeWidget = '';
-  const life = '<img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">';
-  const noLife = '<img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">';
-  let lifeHeader = document.querySelector('.game__lives');
-
-  switch (lives) {
-    case 3: {
-      lifeWidget = life + life + life;
-      break;
-    }
-    case 2: {
-      lifeWidget = noLife + life + life;
-      break;
-    }
-    case 1: {
-      lifeWidget = noLife + noLife + life;
-      break;
-    }
-    case 0: {
-      lifeWidget = noLife + noLife + noLife;
-      break;
-    }
-  }
-  ;
-  lifeHeader.innerHTML = lifeWidget;
-};
-
-const moveNext = (e) => {
-  e.currentTarget.removeEventListener('click', runNextGame);
-  if (currentGameNumber < numberOfGames - 1 && gameState.lifeNumber > 0) {
-    gameState.currentTime = 0;
-    renderGame(game(gamesArr[++currentGameNumber]));
-    updateLifeHeader(gameState.lifeNumber);
-    gameStatsBar(gameState.currentLevel);
-  } else {
-    clearInterval(timer);
-    renderModule(stats());
-  }
-};
-
-const updateInfo = ()=> {
-  gameState.currentLevel = currentGameNumber;
-
-  if (statsArr[currentGameNumber].answerType === 'wrong') {
-    gameState.lifeNumber = gameState.lifeNumber - 1;
-  }
-};
-
-const updateStats = (e, answer, time,) => {
-  statsArr[currentGameNumber].time = time;
-  statsArr[currentGameNumber].isCorrect = answer;
-  statsArr[currentGameNumber].setStats();
-  updateInfo();
-  moveNext(e);
-};
-
-/*
- * Определяем тип текущей игры,
- * Определяем правильность ответа
- * обновляем статистику
- * запускаем следующуу игру или страницу статистики, если игра последняя
- */
 
 const runNextGame = (e)=> {
 
@@ -117,7 +106,7 @@ const runNextGame = (e)=> {
         firstAnswerCorrect = false;
         secondAnswerCorrect = false;
 
-        updateStats(e, isAnswerCorrect, gameState.currentTime);
+        moveNextLevel(e, isAnswerCorrect, gameState.currentTime);
       }
     }
   }
@@ -131,7 +120,7 @@ const runNextGame = (e)=> {
         isAnswerCorrect = false;
       }
 
-      updateStats(e, isAnswerCorrect, gameState.currentTime);
+      moveNextLevel(e, isAnswerCorrect, gameState.currentTime);
     }
   }
 
@@ -146,10 +135,9 @@ const runNextGame = (e)=> {
       } else {
         isAnswerCorrect = false;
       }
-
-      updateStats(e, isAnswerCorrect, gameState.currentTime);
+      moveNextLevel(e, isAnswerCorrect, gameState.currentTime);
     }
   }
 };
-export {runNextGame};
+export default runNextGame;
 

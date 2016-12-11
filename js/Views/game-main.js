@@ -1,52 +1,9 @@
 import getElementFromTemplate from '../Utils/getElementFromTemplate';
-import {runNextGame} from '../Controllers/gameHandlers';
-
-const gameHeader = () => {
-
-  const header = `<header class="header">
-    <div class="header__back">
-        <span class="back">
-          <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
-          <img src="img/logo_small.png" width="101" height="44">
-        </span>
-    </div>
-    <h1 class="game__timer"></h1>
-    <div class="game__lives">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-    </div>
-  </header> <div class="game">`;
+import runNextGame from '../Controllers/gameHandlers';
 
 
-  return header;
-};
-
-const statFooter = () => {
-  const stat = `<div class="stats">
-      <ul class="stats">
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--unknown"></li>
-      </ul>
-    </div>
-  </div>`;
-
-
-  return stat;
-};
-
-const game = (currentGame, gameNumber = 1) => {
-
+const game = (currentGame) => {
   let template = '';
-
   switch (currentGame.type) {
     case 1: {
       const gameType1 = ` <div class = "game__area">
@@ -119,20 +76,19 @@ const game = (currentGame, gameNumber = 1) => {
       template = gameType3;
       break;
     }
-  }
-  let gameNode;
-  if(gameNumber == 0) {
-    gameNode = getElementFromTemplate(gameHeader() + template  + statFooter() );
-  } else {
-    gameNode = getElementFromTemplate(template );
-  }
-  console.log(gameNumber);
-  console.log(gameNode);
+  };
+
+  let gameNode = getElementFromTemplate(template );
+
   const activeElement = gameNode.querySelector('.game__content');
   activeElement.addEventListener('click', runNextGame);
 
-  return gameNode;
+  const gameObj ={
+    gameNode: gameNode,
+    gameTemlate: template
+  };
 
+  return gameObj;
 };
 
-export {game, gameHeader, statFooter};
+export default game;

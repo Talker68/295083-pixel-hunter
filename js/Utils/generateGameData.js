@@ -68,7 +68,6 @@ const generateStatsArr = ()=> {
     statsData[i] = new Statistics(args);
   }
   return statsData;
-
 }
 
 export {generateGameArr, generateStatsArr};

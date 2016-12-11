@@ -36,6 +36,6 @@ const rules = (data) => {
   return rulesNode;
 };
 
-export {rules};
+export default rules;
 
 

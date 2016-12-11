@@ -1,5 +1,5 @@
 import getElementFromTemplate from '../Utils/getElementFromTemplate';
-import {rules} from './rules';
+import rules from './rules';
 import renderModule from '../Utils/renderModule';
 import {metaData} from '../Models/gameData';
 
