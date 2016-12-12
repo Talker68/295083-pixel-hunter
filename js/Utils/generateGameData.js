@@ -61,13 +61,13 @@ const generateStatsArr = ()=> {
   let statsData = [];
 
   for (let i = 0; i < numberOfGames; i++) {
-    let args ={
-      lifeNumber : numberOfLives,
-      gameNumber : i
-    }
+    let args = {
+      lifeNumber: numberOfLives,
+      gameNumber: i
+    };
     statsData[i] = new Statistics(args);
   }
   return statsData;
-}
+};
 
 export {generateGameArr, generateStatsArr};

@@ -1,10 +1,10 @@
 const numberOfGames = 10;
-const numberOfLives =  3;
+const numberOfLives = 3;
 
 const gameState = {
-  currentLevel : 0,
-  lifeNumber : 3,
-  currentTime : 0
+  currentLevel: 0,
+  lifeNumber: 3,
+  currentTime: 0
 };
 
 const Statistics = class {
@@ -16,12 +16,12 @@ const Statistics = class {
   }
 
   setStats() {
-    this.answerType = "wrong";
+    this.answerType = 'wrong';
 
     if (this.isCorrect && this.time < 10) {
-      this.answerType = "fast";
+      this.answerType = 'fast';
     } else if (this.isCorrect && this.time > 20 && this.time < 31) {
-      this.answerType = "slow";
+      this.answerType = 'slow';
     } else if (this.isCorrect) {
       this.answerType = 'correct';
     }
@@ -67,12 +67,12 @@ const Game1 = class {
         type: args.picture2Type,
         URL: args.picture2URL
       }
-    }
+    };
   }
 
 };
 
-const Game2 =class {
+const Game2 = class {
 
   constructor(args) {
     this.type = 2;
@@ -82,16 +82,16 @@ const Game2 =class {
         type: args.picture1Type,
         URL: args.picture1URL
       },
-    }
+    };
   }
 
-}
+};
 
 const Game3 = class {
 
   constructor(args) {
     this.type = 3;
-        this.question = {
+    this.question = {
       text: args.questionText,
       picture1: {
         type: args.picture1Type,
@@ -105,8 +105,8 @@ const Game3 = class {
         type: args.picture3Type,
         URL: args.picture3URL
       }
-    }
+    };
   }
 };
 
-export  {metaData, Game1, Game2, Game3, Statistics, numberOfGames, numberOfLives, gameState};
+export {metaData, Game1, Game2, Game3, Statistics, numberOfGames, numberOfLives, gameState};

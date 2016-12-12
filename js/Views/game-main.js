@@ -76,14 +76,14 @@ const game = (currentGame) => {
       template = gameType3;
       break;
     }
-  };
+  }
 
   let gameNode = getElementFromTemplate(template );
 
   const activeElement = gameNode.querySelector('.game__content');
   activeElement.addEventListener('click', runNextGame);
 
-  const gameObj ={
+  const gameObj = {
     gameNode: gameNode,
     gameTemlate: template
   };

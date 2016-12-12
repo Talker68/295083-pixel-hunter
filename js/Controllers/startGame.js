@@ -7,7 +7,7 @@ import gameHeader from '../Views/game-header';
 import {gameState} from '../Models/gameData';
 import runNextGame from './gameHandlers';
 
-let gamesArr =[];
+let gamesArr = [];
 let statsArr = [];
 let timer;
 
@@ -25,10 +25,10 @@ const startGame = (e) => {
   const activeElement = document.querySelector('.game__content');
   activeElement.addEventListener('click', runNextGame);
 
-  timer = setInterval( () => {
-  gameState.currentTime = gameState.currentTime +1;
+  timer = setInterval(() => {
+    gameState.currentTime = gameState.currentTime + 1;
     renderTimeHeader(gameState.currentTime);
-  }, 1000)
+  }, 1000);
 };
 
 export {startGame, gamesArr, statsArr, timer};
