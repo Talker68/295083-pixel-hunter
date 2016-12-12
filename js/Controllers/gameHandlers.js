@@ -41,36 +41,33 @@ const renderLifeHeader = (lives)=> {
 };
 
 const renderNextGame = (e) => {
+
   e.currentTarget.removeEventListener('click', runNextGame);
-  if (currentGameNumber < numberOfGames - 1 && gameState.lifeNumber > 0) {
+  if (gameState.currentLevel < numberOfGames && gameState.lifeNumber > 0) {
     gameState.currentTime = 0;
-    renderGameNode(game(gamesArr[++currentGameNumber]).gameNode);
+    renderGameNode(game(gamesArr[gameState.currentLevel]).gameNode);
     renderLifeHeader(gameState.lifeNumber);
-    renderGameStatBar(gameState.currentLevel);
+    renderGameStatBar(gameState.currentLevel - 1);
   } else {
-    renderGameStatBar(gameState.currentLevel);
+    // чтобы не перерисовывать в цикле Ноду статистики на последней страницы статистики, копируем ее из последней игры
+    renderGameStatBar(gameState.currentLevel - 1);
     const gameStatBarNode = document.querySelector('ul.stats');
     clearInterval(timer);
     renderModule(stats(gameStatBarNode));
   }
 };
 
-const updateStatsInfo = ()=> {
-  if (statsArr[currentGameNumber].answerType === 'wrong') {
+const updateGameStats = (e, answer, time) => {
+
+  statsArr[gameState.currentLevel].time = time;
+  statsArr[gameState.currentLevel].isCorrect = answer;
+  statsArr[gameState.currentLevel].setStats();
+  if (statsArr[gameState.currentLevel].answerType === 'wrong') {
     gameState.lifeNumber = gameState.lifeNumber - 1;
   }
-};
-
-const moveNextLevel = (e, answer, time) => {
-  gameState.currentLevel = currentGameNumber;
-  statsArr[currentGameNumber].time = time;
-  statsArr[currentGameNumber].isCorrect = answer;
-  statsArr[currentGameNumber].setStats();
-  updateStatsInfo();
+  gameState.currentLevel += 1;
   renderNextGame(e);
 };
-
-let currentGameNumber = 0;
 
 // Переменные для первого типа игры, где надо правильно ответить на оба вопроса
 let answerNumberGiven = 0;
@@ -79,7 +76,7 @@ let secondAnswerCorrect = false;
 
 const runNextGame = (e)=> {
 
-  if (gamesArr[currentGameNumber].type === 1) {
+  if (gamesArr[gameState.currentLevel].type === 1) {
     if (e.target.closest('.game__answer') && e.target.tagName === 'INPUT') {
 
       if (e.target.name === 'question1') {
@@ -88,7 +85,7 @@ const runNextGame = (e)=> {
           x.disabled = 'true';
         });
 
-        if (e.target.value === gamesArr[currentGameNumber].question.picture1.type) {
+        if (e.target.value === gamesArr[gameState.currentLevel].question.picture1.type) {
           firstAnswerCorrect = true;
         }
       }
@@ -99,7 +96,7 @@ const runNextGame = (e)=> {
           x.disabled = 'true';
         });
 
-        if (e.target.value === gamesArr[currentGameNumber].question.picture2.type) {
+        if (e.target.value === gamesArr[gameState.currentLevel].question.picture2.type) {
           secondAnswerCorrect = true;
         }
       }
@@ -112,32 +109,32 @@ const runNextGame = (e)=> {
         firstAnswerCorrect = false;
         secondAnswerCorrect = false;
 
-        moveNextLevel(e, isAnswerCorrect, gameState.currentTime);
+        updateGameStats(e, isAnswerCorrect, gameState.currentTime);
       }
     }
-  } else if (gamesArr[currentGameNumber].type === 2) {
+  } else if (gamesArr[gameState.currentLevel].type === 2) {
     if (e.target.closest('.game__answer') && e.target.tagName === 'INPUT') {
       let isAnswerCorrect;
-      if (e.target.value === gamesArr[currentGameNumber].question.picture1.type) {
+      if (e.target.value === gamesArr[gameState.currentLevel].question.picture1.type) {
         isAnswerCorrect = true;
       } else {
         isAnswerCorrect = false;
       }
 
-      moveNextLevel(e, isAnswerCorrect, gameState.currentTime);
+      updateGameStats(e, isAnswerCorrect, gameState.currentTime);
     }
-  } else if (gamesArr[currentGameNumber].type === 3) {
+  } else if (gamesArr[gameState.currentLevel].type === 3) {
     let pictureChosen = e.target.closest('.game__option');
     if (pictureChosen) {
       let pictureNumber = pictureChosen.id;
 
       let isAnswerCorrect;
-      if (gamesArr[currentGameNumber].question[pictureNumber].type === 'paint') {
+      if (gamesArr[gameState.currentLevel].question[pictureNumber].type === 'paint') {
         isAnswerCorrect = true;
       } else {
         isAnswerCorrect = false;
       }
-      moveNextLevel(e, isAnswerCorrect, gameState.currentTime);
+      updateGameStats(e, isAnswerCorrect, gameState.currentTime);
     }
   }
 };
