@@ -1,10 +1,9 @@
-import {Game1, Game2, Game3} from '../../data/gameData';
-import paintings from 'json-loader!../../data/paintings.json';
-import photos from 'json-loader!../../data/photos.json';
+import {Game1, Game2, Game3, Statistics} from '../Models/gameData';
+import paintings from 'json-loader!../Models/paintings.json';
+import photos from 'json-loader!../Models/photos.json';
+import {numberOfGames, numberOfLives} from '../Models/gameData';
 
 // Создаем массив обектов игр. Типы игр выбираются в случайном порядке.
-
-const numberOfGames = 10;
 
 const generateGameArr = () => {
 
@@ -19,7 +18,7 @@ const generateGameArr = () => {
       case 1: {
         let args = {
           questionText: 'Угадайте для каждого изображения фото или рисунок?',
-          picture1Type: 'painting',
+          picture1Type: 'paint',
           picture1URL: paintings.paintings[paintingsCount++],
           picture2Type: 'photo',
           picture2URL: photos.photos[photoCount++],
@@ -31,7 +30,7 @@ const generateGameArr = () => {
       case 2: {
         let args = {
           questionText: 'Угадай, фото или рисунок?',
-          picture1Type: 'painting',
+          picture1Type: 'paint',
           picture1URL: paintings.paintings[paintingsCount++],
         };
 
@@ -42,11 +41,11 @@ const generateGameArr = () => {
       case 3: {
         let args = {
           questionText: 'Найдите рисунок среди изображений',
-          picture1Type: 'painting',
+          picture1Type: 'paint',
           picture1URL: paintings.paintings[paintingsCount++],
           picture2Type: 'photo',
           picture2URL: photos.photos[photoCount++],
-          picture3Type: 'painting',
+          picture3Type: 'paint',
           picture3URL: paintings.paintings[paintingsCount++],
         };
         games[i] = new Game3(args);
@@ -57,4 +56,18 @@ const generateGameArr = () => {
   return games;
 };
 
-export {generateGameArr, numberOfGames};
+const generateStatsArr = ()=> {
+
+  let statsData = [];
+
+  for (let i = 0; i < numberOfGames; i++) {
+    let args = {
+      lifeNumber: numberOfLives,
+      gameNumber: i
+    };
+    statsData[i] = new Statistics(args);
+  }
+  return statsData;
+};
+
+export {generateGameArr, generateStatsArr};

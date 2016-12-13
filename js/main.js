@@ -1,6 +1,6 @@
-import intro from './Templates/intro.js';
-import renderModule from './Helpers/renderModule';
-import {metaData} from '../data/gameData';
+import intro from './Views/intro.js';
+import renderModule from './Utils/renderModule';
+import {metaData} from './Models/gameData';
 
 renderModule(intro(metaData));
 

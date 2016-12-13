@@ -1,10 +1,5 @@
-import getElementFromTemplate from '../Helpers/getElementFromTemplate';
-import renderModule from '../Helpers/renderModule';
-import {generateGameArr} from '../Helpers/generateGameArr';
-import gameNode from '../Templates/game';
-
-// Создаем массив игр
-let gamesArr = [];
+import getElementFromTemplate from '../Utils/getElementFromTemplate';
+import {startGame} from '../Controllers/startGame';
 
 const rules = (data) => {
   const template = `<header class="header">
@@ -37,17 +32,10 @@ const rules = (data) => {
   };
 
   const activeElement = rulesNode.querySelector('.rules__form');
-
-  const handler = (e) => {
-    e.preventDefault();
-    gamesArr = generateGameArr(); // при вводе имени создаем масив игр
-    activeElement.removeEventListener('click', handler);
-    renderModule(gameNode(gamesArr[0]));
-  };
-  activeElement.addEventListener('submit', handler);
+  activeElement.addEventListener('submit', startGame);
   return rulesNode;
 };
 
-export {rules, gamesArr};
+export default rules;
 
 
