@@ -3,7 +3,7 @@ import renderGameNode from '../Utils/renderGame';
 import {gamesArr, statsArr, timer} from '../Controllers/startGame';
 import game from '../Views/game-main';
 import stats from '../Views/stats';
-import {numberOfGames, gameState} from '../Models/gameData';
+import {numberOfGames, numberOfLives, gameState} from '../Models/gameData';
 
 const renderGameStatBar = (gameNumber) => {
   let PreviousGameResultNode = document.querySelector(`ul.stats li:nth-child(${gameNumber + 1})`);
@@ -12,29 +12,20 @@ const renderGameStatBar = (gameNumber) => {
   PreviousGameResultNode.classList.add(resultClass);
 };
 
-const renderLifeHeader = (lives)=> {
+const renderLifeHeader = (livesLeft)=> {
   let lifeWidget = '';
   const lifeImage = '<img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">';
   const noLifeImage = '<img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">';
   let lifeHeaderNode = document.querySelector('.game__lives');
 
-  switch (lives) {
-    case 3: {
-      lifeWidget = lifeImage + lifeImage + lifeImage;
-      break;
-    }
-    case 2: {
-      lifeWidget = noLifeImage + lifeImage + lifeImage;
-      break;
-    }
-    case 1: {
-      lifeWidget = noLifeImage + noLifeImage + lifeImage;
-      break;
-    }
-    case 0: {
-      lifeWidget = noLifeImage + noLifeImage + noLifeImage;
-      break;
-    }
+  let livesUsed = numberOfLives - livesLeft;
+
+  for (let i = 0; i < livesUsed; i++) {
+    lifeWidget = lifeWidget + noLifeImage;
+  }
+
+  for (let i = 0; i < livesLeft; i++) {
+    lifeWidget = lifeWidget + lifeImage;
   }
 
   lifeHeaderNode.innerHTML = lifeWidget;
