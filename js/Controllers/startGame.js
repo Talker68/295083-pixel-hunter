@@ -1,11 +1,5 @@
-import renderModule from '../Utils/renderModule';
-import getElementFromTemplate from '../Utils/getElementFromTemplate';
-import {generateGameArr, generateStatsArr} from '../Utils/generateGameData';
-import game from '../Views/game-main';
-import gameStats from '../Views/game-stats';
-import gameHeader from '../Views/game-header';
-import {gameState} from '../Models/gameData';
-import runNextGame from './gameHandlers';
+import {generateGameArr, generateStatsArr} from './generateGameData';
+import gameModel from '../Models/gameModel';
 
 let gamesArr = [];
 let statsArr = [];
@@ -16,18 +10,13 @@ const renderTimeHeader = (time) => {
   timeHeader.innerHTML = time;
 };
 
-const startGame = (e) => {
-  e.preventDefault();
+const startGame = () => {
   gamesArr = generateGameArr();
   statsArr = generateStatsArr();
 
-  renderModule(getElementFromTemplate(gameHeader() + game(gamesArr[0]).gameTemlate + gameStats()));
-  const activeElement = document.querySelector('.game__content');
-  activeElement.addEventListener('click', runNextGame);
-
   timer = setInterval(() => {
-    gameState.currentTime = gameState.currentTime + 1;
-    renderTimeHeader(gameState.currentTime);
+    gameModel.tick();
+    renderTimeHeader(gameModel.state.currentTime);
   }, 1000);
 };
 

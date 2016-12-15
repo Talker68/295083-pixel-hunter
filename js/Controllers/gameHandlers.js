@@ -1,9 +1,7 @@
-import renderModule from '../Utils/renderModule';
-import renderGameNode from '../Utils/renderGame';
 import {gamesArr, statsArr, timer} from '../Controllers/startGame';
-import game from '../Views/game-main';
-import stats from '../Views/stats';
-import {numberOfGames, numberOfLives, gameState} from '../Models/gameData';
+import {numberOfGames, numberOfLives} from '../Models/gameData';
+import Application from '../application';
+import gameModel from '../Models/gameModel';
 
 const renderGameStatBar = (gameNumber) => {
   let PreviousGameResultNode = document.querySelector(`ul.stats li:nth-child(${gameNumber + 1})`);
@@ -34,29 +32,30 @@ const renderLifeHeader = (livesLeft)=> {
 const renderNextGame = (e) => {
 
   e.currentTarget.removeEventListener('click', runNextGame);
-  if (gameState.currentLevel < numberOfGames && gameState.lifeNumber > 0) {
-    gameState.currentTime = 0;
-    renderGameNode(game(gamesArr[gameState.currentLevel]).gameNode);
-    renderLifeHeader(gameState.lifeNumber);
-    renderGameStatBar(gameState.currentLevel - 1);
+  if (gameModel.state.currentLevel < numberOfGames && gameModel.state.lifeNumber > 0) {
+    gameModel.resetTimer();
+    Application.showLevel(gamesArr[gameModel.state.currentLevel]);
+    renderLifeHeader(gameModel.state.lifeNumber);
+    renderGameStatBar(gameModel.state.currentLevel - 1);
   } else {
     // чтобы не перерисовывать в цикле Ноду статистики на последней страницы статистики, копируем ее из последней игры
-    renderGameStatBar(gameState.currentLevel - 1);
+    renderGameStatBar(gameModel.state.currentLevel - 1);
     const gameStatBarNode = document.querySelector('ul.stats');
     clearInterval(timer);
-    renderModule(stats(gameStatBarNode));
+    Application.showStat(gameStatBarNode);
+
   }
 };
 
 const updateGameStats = (e, answer, time) => {
 
-  statsArr[gameState.currentLevel].time = time;
-  statsArr[gameState.currentLevel].isCorrect = answer;
-  statsArr[gameState.currentLevel].setStats();
-  if (statsArr[gameState.currentLevel].answerType === 'wrong') {
-    gameState.lifeNumber = gameState.lifeNumber - 1;
+  statsArr[gameModel.state.currentLevel].time = time;
+  statsArr[gameModel.state.currentLevel].isCorrect = answer;
+  statsArr[gameModel.state.currentLevel].setStats();
+  if (statsArr[gameModel.state.currentLevel].answerType === 'wrong') {
+    gameModel.die();
   }
-  gameState.currentLevel += 1;
+  gameModel.nextLevel();
   renderNextGame(e);
 };
 
@@ -67,7 +66,7 @@ let secondAnswerCorrect = false;
 
 const runNextGame = (e)=> {
 
-  if (gamesArr[gameState.currentLevel].type === 1) {
+  if (gamesArr[gameModel.state.currentLevel].type === 1) {
     if (e.target.closest('.game__answer') && e.target.tagName === 'INPUT') {
 
       if (e.target.name === 'question1') {
@@ -76,7 +75,7 @@ const runNextGame = (e)=> {
           x.disabled = 'true';
         });
 
-        if (e.target.value === gamesArr[gameState.currentLevel].question.picture1.type) {
+        if (e.target.value === gamesArr[gameModel.state.currentLevel].question.picture1.type) {
           firstAnswerCorrect = true;
         }
       }
@@ -87,7 +86,7 @@ const runNextGame = (e)=> {
           x.disabled = 'true';
         });
 
-        if (e.target.value === gamesArr[gameState.currentLevel].question.picture2.type) {
+        if (e.target.value === gamesArr[gameModel.state.currentLevel].question.picture2.type) {
           secondAnswerCorrect = true;
         }
       }
@@ -100,32 +99,32 @@ const runNextGame = (e)=> {
         firstAnswerCorrect = false;
         secondAnswerCorrect = false;
 
-        updateGameStats(e, isAnswerCorrect, gameState.currentTime);
+        updateGameStats(e, isAnswerCorrect, gameModel.state.currentTime);
       }
     }
-  } else if (gamesArr[gameState.currentLevel].type === 2) {
+  } else if (gamesArr[gameModel.state.currentLevel].type === 2) {
     if (e.target.closest('.game__answer') && e.target.tagName === 'INPUT') {
       let isAnswerCorrect;
-      if (e.target.value === gamesArr[gameState.currentLevel].question.picture1.type) {
+      if (e.target.value === gamesArr[gameModel.state.currentLevel].question.picture1.type) {
         isAnswerCorrect = true;
       } else {
         isAnswerCorrect = false;
       }
 
-      updateGameStats(e, isAnswerCorrect, gameState.currentTime);
+      updateGameStats(e, isAnswerCorrect, gameModel.state.currentTime);
     }
-  } else if (gamesArr[gameState.currentLevel].type === 3) {
+  } else if (gamesArr[gameModel.state.currentLevel].type === 3) {
     let pictureChosen = e.target.closest('.game__option');
     if (pictureChosen) {
       let pictureNumber = pictureChosen.id;
 
       let isAnswerCorrect;
-      if (gamesArr[gameState.currentLevel].question[pictureNumber].type === 'paint') {
+      if (gamesArr[gameModel.state.currentLevel].question[pictureNumber].type === 'paint') {
         isAnswerCorrect = true;
       } else {
         isAnswerCorrect = false;
       }
-      updateGameStats(e, isAnswerCorrect, gameState.currentTime);
+      updateGameStats(e, isAnswerCorrect, gameModel.state.currentTime);
     }
   }
 };
