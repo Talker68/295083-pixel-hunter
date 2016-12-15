@@ -25,7 +25,7 @@ class GreetingView extends AbstractView {
     const activeElement = this.element.querySelector('.greeting__continue');
 
     const showRulesScreen = (e) => {
-      Application.showRules(metaData)
+      Application.showRules(metaData);
     };
 
     activeElement.addEventListener('click', showRulesScreen );

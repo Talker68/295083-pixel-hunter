@@ -1,4 +1,6 @@
 import AbstractView from './abstractView';
+import Application from '../application';
+import {startGame, gamesArr} from '../Controllers/startGame';
 
 class RulesView extends AbstractView {
 
@@ -8,7 +10,7 @@ class RulesView extends AbstractView {
   }
 
   getMarkup() {
-    return  `<header class="header">
+    return `<header class="header">
     <div class="header__back">
       <span class="back">
         <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
@@ -25,6 +27,26 @@ class RulesView extends AbstractView {
       <button class="rules__button  continue" type="submit" disabled>Go!</button>
     </form>
   </div>`;
+  }
+
+  bindHandlers() {
+    const rulesSubmit = this.element.querySelector('.rules__button');
+    this.element.querySelector('.rules__input').oninput = function () {
+      if (this.value) {
+        rulesSubmit.removeAttribute('disabled');
+      } else {
+        rulesSubmit.setAttribute('disabled', '');
+      }
+    };
+
+    const activeElement = this.element.querySelector('.rules__form');
+    const showGameScreen = (e) => {
+      e.preventDefault();
+      Application.showGames();
+      startGame();
+      Application.showLevel(gamesArr[0]);
+    };
+    activeElement.addEventListener('submit', showGameScreen );
   }
 }
 

@@ -2,9 +2,26 @@ const numberOfGames = 10;
 const numberOfLives = 3;
 
 const gameState = {
+
   currentLevel: 0,
   lifeNumber: 3,
   currentTime: 0
+};
+
+const setCurrentLevel = (state, level) => {
+  return Object.assign({}, state, {currentLevel: level});
+};
+
+const setTime = (state, time) => {
+  return Object.assign({}, state, {currentTime: time});
+};
+
+const setLives = (state, lives) => {
+  if (lives < 0) {
+    throw new RangeError('Number of lives can not be negative');
+  }
+
+  return Object.assign({}, state, {lifeNumber: lives});
 };
 
 const Statistics = class {
@@ -14,7 +31,6 @@ const Statistics = class {
     this.isCorrect = false;
     this.answerType = 'unknown';
   }
-
   setStats() {
     this.answerType = 'wrong';
 
@@ -109,4 +125,4 @@ const Game3 = class {
   }
 };
 
-export {metaData, Game1, Game2, Game3, Statistics, numberOfGames, numberOfLives, gameState};
+export {metaData, Game1, Game2, Game3, Statistics, numberOfGames, numberOfLives, gameState, setCurrentLevel, setTime, setLives};

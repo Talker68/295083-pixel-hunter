@@ -1,6 +1,9 @@
 import createIntroScreen from './Views/introView';
 import createGreetingScreen from './Views/greetingView';
 import createRulesScreen from './Views/rulesView';
+import createGameScreen from './Views/fullGameView';
+import createLevelScreen from './Views/levelView';
+import createStatsScreen from './Views/statsView';
 
 const mainElement = document.getElementById('main');
 
@@ -9,9 +12,16 @@ const renderModule = (currentElement)=> {
   mainElement.appendChild(currentElement);
 };
 
+const renderLevel = (game)=> {
+  const gameElement = document.querySelector('.game__area');
+  gameElement.innerHTML = '';
+  gameElement.appendChild(game);
+
+};
+
 class Application {
 
-  static showIntro (data) {
+  static showIntro(data) {
     renderModule(createIntroScreen(data));
   }
 
@@ -23,12 +33,16 @@ class Application {
     renderModule(createRulesScreen(data));
   }
 
-  static showGames() {
-
+  static showGames(game) {
+    renderModule((createGameScreen(game)));
   }
 
-  static showStat() {
+  static showLevel(game) {
+    renderLevel((createLevelScreen(game)));
+  }
 
+  static showStat(data) {
+    renderModule(createStatsScreen(data));
   }
 }
 

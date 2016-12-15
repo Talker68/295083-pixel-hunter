@@ -1,50 +1,57 @@
-import getElementFromTemplate from '../Utils/getElementFromTemplate.js';
+import AbstractView from './abstractView';
 import {statsArr} from '../Controllers/startGame';
-import {gameState} from '../Models/gameData';
+import gameModel from '../Models/gameModel';
 
-const gameResult = (state) => {
-  let result = state.lifeNumber > 0 ? 'Победа!' : 'Поражение :(';
-  return result;
-};
+class StatsView extends AbstractView {
 
-const gameScore = (stats) => {
-  let scoreArr = {
-    baseScore: 0,
-    fastScore: 0,
-    slowScore: 0,
-    extraLifeScore: 3,
-    totalScore() {
-      return this.baseScore * 100 + this.fastScore * 50 - this.slowScore * 50 + this.extraLifeScore * 50;
-    }
-  };
+  constructor(data) {
+    super();
+    this.data = data;
+  }
 
-  stats.forEach((i) => {
-    switch (i.answerType) {
-      case 'correct': {
-        scoreArr.baseScore += 1;
-        break;
-      }
-      case 'fast': {
-        scoreArr.baseScore += 1;
-        scoreArr.fastScore += 1;
-        break;
-      }
-      case 'slow': {
-        scoreArr.baseScore += 1;
-        scoreArr.slowScore += 1;
-        break;
-      }
-      case 'wrong': {
-        scoreArr.extraLifeScore -= 1;
-        break;
-      }
-    }
-  });
-  return scoreArr;
-};
+  gameResult(state) {
+    let result = state.lifeNumber > 0 ? 'Победа!' : 'Поражение :(';
+    return result;
+  }
 
-const stats = (gameStatList)=> {
-  const template = `<header class="header">
+  gameScore(stats) {
+    let scoreArr = {
+      baseScore: 0,
+      fastScore: 0,
+      slowScore: 0,
+      extraLifeScore: 3,
+      totalScore() {
+        return this.baseScore * 100 + this.fastScore * 50 - this.slowScore * 50 + this.extraLifeScore * 50;
+      }
+    };
+
+    stats.forEach((i) => {
+      switch (i.answerType) {
+        case 'correct': {
+          scoreArr.baseScore += 1;
+          break;
+        }
+        case 'fast': {
+          scoreArr.baseScore += 1;
+          scoreArr.fastScore += 1;
+          break;
+        }
+        case 'slow': {
+          scoreArr.baseScore += 1;
+          scoreArr.slowScore += 1;
+          break;
+        }
+        case 'wrong': {
+          scoreArr.extraLifeScore -= 1;
+          break;
+        }
+      }
+    });
+    return scoreArr;
+  }
+
+  getMarkup() {
+    return `<header class="header">
     <div class="header__back">
       <span class="back">
         <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
@@ -53,38 +60,38 @@ const stats = (gameStatList)=> {
     </div>
   </header>
   <div class="result">
-    <h1>${gameResult(gameState)}</h1>
+    <h1>${this.gameResult(gameModel.state)}</h1>
         <table class="result__table">
       <tr>
         <td class="result__number">1.</td>
         <td colspan="2">
-          ${gameStatList.outerHTML}
+          ${this.data.outerHTML}
         <td class="result__points">×&nbsp;100</td>
-        <td class="result__total">${gameScore(statsArr).baseScore * 100}</td>
+        <td class="result__total">${this.gameScore(statsArr).baseScore * 100}</td>
       </tr>
       <tr>
         <td></td>
         <td class="result__extra">Бонус за скорость:</td>
-        <td class="result__extra">${gameScore(statsArr).fastScore}<span class="stats__result stats__result--fast"></span></td>
+        <td class="result__extra">${this.gameScore(statsArr).fastScore}<span class="stats__result stats__result--fast"></span></td>
         <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">${gameScore(statsArr).fastScore * 50}</td>
+        <td class="result__total">${this.gameScore(statsArr).fastScore * 50}</td>
       </tr>
       <tr>
         <td></td>
         <td class="result__extra">Бонус за жизни:</td>
-        <td class="result__extra">${gameScore(statsArr).extraLifeScore}<span class="stats__result stats__result--heart"></span></td>
+        <td class="result__extra">${this.gameScore(statsArr).extraLifeScore}<span class="stats__result stats__result--heart"></span></td>
         <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">${gameScore(statsArr).extraLifeScore * 50}</td>
+        <td class="result__total">${this.gameScore(statsArr).extraLifeScore * 50}</td>
       </tr>
       <tr>
         <td></td>
         <td class="result__extra">Штраф за медлительность:</td>
-        <td class="result__extra">${gameScore(statsArr).slowScore}<span class="stats__result stats__result--slow"></span></td>
+        <td class="result__extra">${this.gameScore(statsArr).slowScore}<span class="stats__result stats__result--slow"></span></td>
         <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">${gameScore(statsArr).slowScore > 0 ? -gameScore(statsArr).slowScore * 50 : 0 }</td>
+        <td class="result__total">${this.gameScore(statsArr).slowScore > 0 ? -this.gameScore(statsArr).slowScore * 50 : 0 }</td>
       </tr>
       <tr>
-        <td colspan="5" class="result__total  result__total--final">${gameScore(statsArr).totalScore()}</td>
+        <td colspan="5" class="result__total  result__total--final">${this.gameScore(statsArr).totalScore()}</td>
       </tr>
     </table>
     <table class="result__table">
@@ -140,9 +147,8 @@ const stats = (gameStatList)=> {
       </tr>
     </table>
   </div>`;
+  }
+}
 
-  const statsNode = getElementFromTemplate(template);
-  return statsNode;
-};
-export default stats;
-
+const createStatsScreen = (data) => new StatsView(data).element;
+export default createStatsScreen;

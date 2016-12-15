@@ -21,7 +21,7 @@ class IntroView extends AbstractView {
     const activeElement = this.element.querySelector('.intro__asterisk');
 
     const showGreetingScreen = (e) => {
-      Application.showGreetings(metaData)
+      Application.showGreetings(metaData);
     };
 
     activeElement.addEventListener('click', showGreetingScreen );
