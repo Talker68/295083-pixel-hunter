@@ -1,5 +1,5 @@
 import AbstractView from './abstractView';
-import runNextGame from '../Controllers/gameHandlers';
+import game from '../Presentors/gamePresentor';
 
 class LevelView extends AbstractView {
   constructor(currentGame) {
@@ -87,7 +87,7 @@ class LevelView extends AbstractView {
 
   bindHandlers() {
     const activeElement = this.element.querySelector('.game__content');
-    activeElement.addEventListener('click', runNextGame);
+    activeElement.addEventListener('click', game.runNextGame.bind(game));
   }
 }
 
