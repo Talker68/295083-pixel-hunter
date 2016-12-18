@@ -1,6 +1,6 @@
 import AbstractView from './abstractView';
 import Application from '../application';
-import {startGame, gamesArr} from '../Controllers/startGame';
+import {startGame, gamesArr} from '../Services/startGame';
 
 class RulesView extends AbstractView {
 

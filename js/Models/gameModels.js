@@ -1,4 +1,4 @@
-import {gameState, setCurrentLevel, setTime, setLives} from './gameData';
+import {gameState, gameResult, setCurrentLevel, setTime, setLives, setResult} from './gameData';
 
 class GameModel {
   constructor(state) {
@@ -21,8 +21,23 @@ class GameModel {
   resetTimer() {
     this._state = setTime(this._state, this._state.currentTime = 0);
   }
+}
 
+class StatModel {
+  constructor(result) {
+    this._result = result;
+  }
+
+  get result() {
+    return this._result;
+  }
+
+  updateResult(time, isCorrect) {
+    this._result = setResult(this._result, time, isCorrect);
+  }
 }
 
 const gameModel = new GameModel(gameState);
-export default gameModel;
+const statModel = new StatModel(gameResult);
+
+export {gameModel, statModel};

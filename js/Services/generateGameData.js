@@ -1,7 +1,7 @@
-import {Game1, Game2, Game3, Statistics} from '../Models/gameData';
+import {Game1, Game2, Game3} from '../Models/gameData';
 import paintings from 'json-loader!../Models/paintings.json';
 import photos from 'json-loader!../Models/photos.json';
-import {numberOfGames, numberOfLives} from '../Models/gameData';
+import {numberOfGames} from '../Models/gameData';
 
 // Создаем массив обектов игр. Типы игр выбираются в случайном порядке.
 
@@ -56,18 +56,4 @@ const generateGameArr = () => {
   return games;
 };
 
-const generateStatsArr = ()=> {
-
-  let statsData = [];
-
-  for (let i = 0; i < numberOfGames; i++) {
-    let args = {
-      lifeNumber: numberOfLives,
-      gameNumber: i
-    };
-    statsData[i] = new Statistics(args);
-  }
-  return statsData;
-};
-
-export {generateGameArr, generateStatsArr};
+export {generateGameArr};

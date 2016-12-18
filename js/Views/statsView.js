@@ -1,56 +1,17 @@
 import AbstractView from './abstractView';
-import {statsArr} from '../Controllers/startGame';
-import gameModel from '../Models/gameModel';
+import {calcGameResult, calcGameScore} from '../Services/calculateScores';
 
 class StatsView extends AbstractView {
 
-  constructor(data) {
+  constructor({gameStatBarNode, statsArr, gameModelObj}) {
     super();
-    this.data = data;
-  }
-
-  gameResult(state) {
-    let result = state.lifeNumber > 0 ? 'Победа!' : 'Поражение :(';
-    return result;
-  }
-
-  gameScore(stats) {
-    let scoreArr = {
-      baseScore: 0,
-      fastScore: 0,
-      slowScore: 0,
-      extraLifeScore: 3,
-      totalScore() {
-        return this.baseScore * 100 + this.fastScore * 50 - this.slowScore * 50 + this.extraLifeScore * 50;
-      }
-    };
-
-    stats.forEach((i) => {
-      switch (i.answerType) {
-        case 'correct': {
-          scoreArr.baseScore += 1;
-          break;
-        }
-        case 'fast': {
-          scoreArr.baseScore += 1;
-          scoreArr.fastScore += 1;
-          break;
-        }
-        case 'slow': {
-          scoreArr.baseScore += 1;
-          scoreArr.slowScore += 1;
-          break;
-        }
-        case 'wrong': {
-          scoreArr.extraLifeScore -= 1;
-          break;
-        }
-      }
-    });
-    return scoreArr;
+    this.gameStatBarNode = gameStatBarNode;
+    this.gameResult = calcGameResult(gameModelObj.state);
+    this.gameScore = calcGameScore(statsArr);
   }
 
   getMarkup() {
+
     return `<header class="header">
     <div class="header__back">
       <span class="back">
@@ -60,38 +21,38 @@ class StatsView extends AbstractView {
     </div>
   </header>
   <div class="result">
-    <h1>${this.gameResult(gameModel.state)}</h1>
+    <h1>${this.gameResult}</h1>
         <table class="result__table">
       <tr>
         <td class="result__number">1.</td>
         <td colspan="2">
-          ${this.data.outerHTML}
+          ${this.gameStatBarNode.outerHTML}
         <td class="result__points">×&nbsp;100</td>
-        <td class="result__total">${this.gameScore(statsArr).baseScore * 100}</td>
+        <td class="result__total">${this.gameScore.baseScore * 100}</td>
       </tr>
       <tr>
         <td></td>
         <td class="result__extra">Бонус за скорость:</td>
-        <td class="result__extra">${this.gameScore(statsArr).fastScore}<span class="stats__result stats__result--fast"></span></td>
+        <td class="result__extra">${this.gameScore.fastScore}<span class="stats__result stats__result--fast"></span></td>
         <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">${this.gameScore(statsArr).fastScore * 50}</td>
+        <td class="result__total">${this.gameScore.fastScore * 50}</td>
       </tr>
       <tr>
         <td></td>
         <td class="result__extra">Бонус за жизни:</td>
-        <td class="result__extra">${this.gameScore(statsArr).extraLifeScore}<span class="stats__result stats__result--heart"></span></td>
+        <td class="result__extra">${this.gameScore.extraLifeScore}<span class="stats__result stats__result--heart"></span></td>
         <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">${this.gameScore(statsArr).extraLifeScore * 50}</td>
+        <td class="result__total">${this.gameScore.extraLifeScore * 50}</td>
       </tr>
       <tr>
         <td></td>
         <td class="result__extra">Штраф за медлительность:</td>
-        <td class="result__extra">${this.gameScore(statsArr).slowScore}<span class="stats__result stats__result--slow"></span></td>
+        <td class="result__extra">${this.gameScore.slowScore}<span class="stats__result stats__result--slow"></span></td>
         <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">${this.gameScore(statsArr).slowScore > 0 ? -this.gameScore(statsArr).slowScore * 50 : 0 }</td>
+        <td class="result__total">${this.gameScore.slowScore > 0 ? -this.gameScore.slowScore * 50 : 0 }</td>
       </tr>
       <tr>
-        <td colspan="5" class="result__total  result__total--final">${this.gameScore(statsArr).totalScore()}</td>
+        <td colspan="5" class="result__total  result__total--final">${this.gameScore.totalScore()}</td>
       </tr>
     </table>
     <table class="result__table">

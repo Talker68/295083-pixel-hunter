@@ -1,8 +1,7 @@
-import {generateGameArr, generateStatsArr} from './generateGameData';
-import gameModel from '../Models/gameModel';
+import {generateGameArr} from './generateGameData';
+import {gameModel} from '../Models/gameModels';
 
 let gamesArr = [];
-let statsArr = [];
 let timer;
 
 const renderTimeHeader = (time) => {
@@ -12,7 +11,6 @@ const renderTimeHeader = (time) => {
 
 const startGame = () => {
   gamesArr = generateGameArr();
-  statsArr = generateStatsArr();
 
   timer = setInterval(() => {
     gameModel.tick();
@@ -20,4 +18,4 @@ const startGame = () => {
   }, 1000);
 };
 
-export {startGame, gamesArr, statsArr, timer};
+export {startGame, gamesArr, timer};

@@ -1,11 +1,17 @@
 const numberOfGames = 10;
 const numberOfLives = 3;
+const statsArr = [];
 
 const gameState = {
-
   currentLevel: 0,
   lifeNumber: 3,
   currentTime: 0
+};
+
+const gameResult = {
+  time: 0,
+  isCorrect: false,
+  answerType: 'unknown'
 };
 
 const setCurrentLevel = (state, level) => {
@@ -24,25 +30,26 @@ const setLives = (state, lives) => {
   return Object.assign({}, state, {lifeNumber: lives});
 };
 
-const Statistics = class {
-  constructor(args) {
-    this.gameNumber = args.gameNumber;
-    this.time = 0;
-    this.isCorrect = false;
-    this.answerType = 'unknown';
-  }
-  setStats() {
-    this.answerType = 'wrong';
+const setResult = (result, time, isCorrect) => {
+  let answerType = '';
 
-    if (this.isCorrect && this.time < 10) {
-      this.answerType = 'fast';
-    } else if (this.isCorrect && this.time > 20 && this.time < 31) {
-      this.answerType = 'slow';
-    } else if (this.isCorrect) {
-      this.answerType = 'correct';
-    }
+  if (isCorrect && time < 10) {
+    answerType = 'fast';
+  } else if (isCorrect && time >= 20 && time < 31) {
+    answerType = 'slow';
+  } else if (isCorrect && time >= 10 && time < 20) {
+    answerType = 'correct';
+  } else {
+    answerType = 'wrong';
   }
+
+  return Object.assign({}, result, {
+    time: time,
+    isCorrect: isCorrect,
+    answerType: answerType
+  });
 };
+
 
 const metaData = {
   intro: {
@@ -125,4 +132,4 @@ const Game3 = class {
   }
 };
 
-export {metaData, Game1, Game2, Game3, Statistics, numberOfGames, numberOfLives, gameState, setCurrentLevel, setTime, setLives};
+export {metaData, Game1, Game2, Game3, numberOfGames, numberOfLives, gameState, setCurrentLevel, setTime, setLives, gameResult, setResult, statsArr};
