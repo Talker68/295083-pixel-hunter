@@ -1,4 +1,4 @@
-import {gamesArr, timer} from '../Services/startGame';
+import {timer} from '../Services/startGame';
 import {numberOfGames, numberOfLives, statsArr} from '../Models/gameData';
 import Application from '../application';
 import {gameModel, statModel} from '../Models/gameModels';
@@ -35,6 +35,7 @@ class GamePresenter {
   }
 
   renderNextGame() {
+    let gamesArr = Application.gameData;
     if (this.gameModel.state.currentLevel < numberOfGames && this.gameModel.state.lifeNumber > 0) {
       this.gameModel.resetTimer();
       Application.showLevel(gamesArr[this.gameModel.state.currentLevel]);
@@ -63,7 +64,8 @@ class GamePresenter {
   }
 
   runNextGame(e) {
-    if (gamesArr[this.gameModel.state.currentLevel].type === 1) {
+    let gamesArr = Application.gameData;
+    if (gamesArr[this.gameModel.state.currentLevel].type === 'two-of-two') {
 
       if (!this._answerNumberGiven) {
         this._answerNumberGiven = 0;
@@ -77,7 +79,7 @@ class GamePresenter {
             x.disabled = 'true';
           });
 
-          this._firstAnswer = (e.target.value === gamesArr[this.gameModel.state.currentLevel].question.picture1.type);
+          this._firstAnswer = (e.target.value === gamesArr[this.gameModel.state.currentLevel].answers[0].type);
 
         }
         if (e.target.name === 'question2') {
@@ -87,7 +89,7 @@ class GamePresenter {
             x.disabled = 'true';
           });
 
-          this._secondAnswer = (e.target.value === gamesArr[this.gameModel.state.currentLevel].question.picture2.type);
+          this._secondAnswer = (e.target.value === gamesArr[this.gameModel.state.currentLevel].answers[1].type);
         }
 
         if (this._answerNumberGiven === 2) {
@@ -97,20 +99,38 @@ class GamePresenter {
         }
       }
 
-    } else if (gamesArr[this.gameModel.state.currentLevel].type === 2) {
+    } else if (gamesArr[this.gameModel.state.currentLevel].type === 'tinder-like') {
       if (e.target.closest('.game__answer') && e.target.tagName === 'INPUT') {
 
-        let isCorrect = (e.target.value === gamesArr[this.gameModel.state.currentLevel].question.picture1.type);
+        let isCorrect = (e.target.value === gamesArr[this.gameModel.state.currentLevel].answers[0].type);
 
         this.updateGameStats(isCorrect, this.gameModel.state.currentTime);
       }
 
-    } else if (gamesArr[this.gameModel.state.currentLevel].type === 3) {
+    } else if (gamesArr[this.gameModel.state.currentLevel].type === 'one-of-three') {
+
+      const questionType = (question) => {
+        let paintingsCount = 0;
+        let photosCount = 0;
+        question.answers.forEach((i) => {
+          if (i.type === 'painting') {
+            paintingsCount++;
+          } else {
+            photosCount++;
+          }
+
+        });
+        if (paintingsCount < photosCount) {
+          return 'painting';
+        } else {
+          return 'photo';
+        }
+      };
+
       let pictureChosen = e.target.closest('.game__option');
       if (pictureChosen) {
-        let pictureNumber = pictureChosen.id;
-
-        let isCorrect = (gamesArr[this.gameModel.state.currentLevel].question[pictureNumber].type === 'paint');
+        let pictureNumber = parseInt(pictureChosen.id, 10);
+        let isCorrect = (gamesArr[this.gameModel.state.currentLevel].answers[pictureNumber].type === questionType(gamesArr[this.gameModel.state.currentLevel]));
 
         this.updateGameStats(isCorrect, this.gameModel.state.currentTime);
       }
@@ -119,5 +139,6 @@ class GamePresenter {
 }
 
 const game = new GamePresenter(gameModel);
+
 export default game;
 

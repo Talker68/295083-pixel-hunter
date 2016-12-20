@@ -1,5 +1,6 @@
 import AbstractView from './abstractView';
 import game from '../Presentors/gamePresentor';
+import imageLoader from '../image-loader/image-loader';
 
 class LevelView extends AbstractView {
   constructor(currentGame) {
@@ -10,29 +11,29 @@ class LevelView extends AbstractView {
   getMarkup() {
     let template = '';
     switch (this.currentGame.type) {
-      case 1: {
+      case 'two-of-two': {
         const gameType1 = ` <div class = "game__area">
-    <p class="game__task">${this.currentGame.question.text}</p>
+    <p class="game__task">${this.currentGame.question}</p>
     <form class="game__content">
       <div class="game__option">
-        <img src=${this.currentGame.question.picture1.URL} alt="Option 1" width="468" height="458">
+        <img class="dummy-image-0"  src="" alt="Option 1" >
         <label class="game__answer game__answer--photo">
           <input name="question1" type="radio" value="photo">
           <span>Фото</span>
         </label>
         <label class="game__answer game__answer--paint">
-          <input name="question1" type="radio" value="paint">
+          <input name="question1" type="radio" value="painting">
           <span>Рисунок</span>
         </label>
       </div>
       <div class="game__option">
-        <img src=${this.currentGame.question.picture2.URL} alt="Option 2" width="468" height="458">
+        <img class="dummy-image-1" src="" alt="Option 2" >
         <label class="game__answer  game__answer--photo">
           <input name="question2" type="radio" value="photo">
           <span>Фото</span>
         </label>
         <label class="game__answer  game__answer--paint">
-          <input name="question2" type="radio" value="paint">
+          <input name="question2" type="radio" value="painting">
           <span>Рисунок</span>
         </label>
       </div>
@@ -42,18 +43,18 @@ class LevelView extends AbstractView {
         break;
       }
 
-      case 2: {
+      case 'tinder-like': {
         const gameType2 = `<div class = "game__area">
-    <p class="game__task">${this.currentGame.question.text}</p>
+    <p class="game__task">${this.currentGame.question}</p>
     <form class="game__content  game__content--wide">
       <div class="game__option">
-        <img src=${this.currentGame.question.picture1.URL} alt="Option 1" width="705" height="455">
+        <img class="dummy-image-0" src="" alt="Option 1" >
         <label class="game__answer  game__answer--photo">
           <input name="question1" type="radio" value="photo">
           <span>Фото</span>
         </label>
         <label class="game__answer  game__answer--wide  game__answer--paint">
-          <input name="question1" type="radio" value="paint">
+          <input name="question1" type="radio" value="painting">
           <span>Рисунок</span>
         </label>
       </div>
@@ -63,18 +64,18 @@ class LevelView extends AbstractView {
         break;
       }
 
-      case 3: {
+      case 'one-of-three': {
         const gameType3 = `<div class = "game__area">
-    <p class="game__task">${this.currentGame.question.text}</p>
+    <p class="game__task">${this.currentGame.question}</p>
     <form class="game__content  game__content--triple">
-      <div class="game__option" id="picture1" >
-        <img src=${this.currentGame.question.picture1.URL} alt="Option 1" width="304" height="455">
+      <div class="game__option" id="0" >
+        <img class="dummy-image-0" src="" alt="Option 1" >
       </div>
-      <div class="game__option game__option--selected" id="picture2">
-        <img src=${this.currentGame.question.picture2.URL} alt="Option 2" width="304" height="455">
+      <div class="game__option game__option--selected" id="1">
+        <img class="dummy-image-1" src="" alt="Option 2" >
       </div>
-      <div class="game__option" id="picture3">
-        <img src=${this.currentGame.question.picture3.URL} alt="Option 3" width="304" height="455">
+      <div class="game__option" id="2">
+        <img class="dummy-image-2" src="" alt="Option 3" >
       </div>
     </form></div>`;
 
@@ -83,6 +84,17 @@ class LevelView extends AbstractView {
       }
     }
     return template;
+  }
+
+  getImages() {
+    for (let i = 0; i < this.currentGame.answers.length; i++) {
+      let elementToReplace = this.element.querySelector('.dummy-image-' + i);
+      imageLoader(elementToReplace).load({
+        url: this.currentGame.answers[i].image.url,
+        width: this.currentGame.answers[i].image.width,
+        height: this.currentGame.answers[i].image.height
+      });
+    }
   }
 
   bindHandlers() {
