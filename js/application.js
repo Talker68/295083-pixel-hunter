@@ -4,6 +4,8 @@ import createRulesScreen from './Views/rulesView';
 import createGameScreen from './Views/fullGameView';
 import createLevelScreen from './Views/levelView';
 import createStatsScreen from './Views/statsView';
+import createErrorScreen from './Views/errorView';
+import {metaData} from './Models/gameData';
 
 const mainElement = document.getElementById('main');
 
@@ -19,10 +21,12 @@ const renderLevel = (game)=> {
 
 };
 
+let gameArr = [];
+
 class Application {
 
-  static showIntro(data) {
-    renderModule(createIntroScreen(data));
+  static showIntro() {
+    renderModule(createIntroScreen(metaData));
   }
 
   static showGreetings(data) {
@@ -43,6 +47,17 @@ class Application {
 
   static showStat(data) {
     renderModule(createStatsScreen(data));
+  }
+
+  static set gameData(data) {
+    gameArr = data;
+  }
+
+  static get gameData() {
+    return gameArr;
+  }
+  static showError(error) {
+    renderModule(createErrorScreen(error));
   }
 }
 

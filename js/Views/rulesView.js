@@ -1,6 +1,7 @@
 import AbstractView from './abstractView';
 import Application from '../application';
-import {startGame, gamesArr} from '../Services/startGame';
+import {startTimer} from '../Services/startGame';
+
 
 class RulesView extends AbstractView {
 
@@ -43,8 +44,9 @@ class RulesView extends AbstractView {
     const showGameScreen = (e) => {
       e.preventDefault();
       Application.showGames();
-      startGame();
-      Application.showLevel(gamesArr[0]);
+      let firstLevel = Application.gameData[0];
+      Application.showLevel(firstLevel);
+      startTimer();
     };
     activeElement.addEventListener('submit', showGameScreen );
   }

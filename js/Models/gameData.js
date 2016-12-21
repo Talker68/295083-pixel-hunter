@@ -2,6 +2,7 @@ const numberOfGames = 10;
 const numberOfLives = 3;
 const statsArr = [];
 
+
 const gameState = {
   currentLevel: 0,
   lifeNumber: 3,
@@ -76,60 +77,4 @@ const metaData = {
   },
 };
 
-const Game1 = class {
-
-  constructor(args) {
-    this.type = 1;
-    this.question = {
-      text: args.questionText,
-      picture1: {
-        type: args.picture1Type,
-        URL: args.picture1URL
-      },
-      picture2: {
-        type: args.picture2Type,
-        URL: args.picture2URL
-      }
-    };
-  }
-
-};
-
-const Game2 = class {
-
-  constructor(args) {
-    this.type = 2;
-    this.question = {
-      text: args.questionText,
-      picture1: {
-        type: args.picture1Type,
-        URL: args.picture1URL
-      },
-    };
-  }
-
-};
-
-const Game3 = class {
-
-  constructor(args) {
-    this.type = 3;
-    this.question = {
-      text: args.questionText,
-      picture1: {
-        type: args.picture1Type,
-        URL: args.picture1URL
-      },
-      picture2: {
-        type: args.picture2Type,
-        URL: args.picture2URL
-      },
-      picture3: {
-        type: args.picture3Type,
-        URL: args.picture3URL
-      }
-    };
-  }
-};
-
-export {metaData, Game1, Game2, Game3, numberOfGames, numberOfLives, gameState, setCurrentLevel, setTime, setLives, gameResult, setResult, statsArr};
+export {metaData, numberOfGames, numberOfLives, gameState, setCurrentLevel, setTime, setLives, setResult, gameResult, statsArr};

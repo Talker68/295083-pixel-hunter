@@ -4,6 +4,7 @@ class AbstractView {
     if (!this._element) {
       this._element = document.createElement('div');
       this._element.innerHTML = this.getMarkup();
+      this.getImages();
       this.bindHandlers();
     }
 
@@ -18,6 +19,9 @@ class AbstractView {
     // optional method
   }
 
+  getImages() {
+    // get image with the right size
+  }
 
   clearHandlers() {
     // optional method
