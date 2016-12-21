@@ -24,11 +24,11 @@ class GamePresenter {
     let livesUsed = numberOfLives - livesLeft;
 
     for (let i = 0; i < livesUsed; i++) {
-      lifeWidget = lifeWidget + noLifeImage;
+      lifeWidget += noLifeImage;
     }
 
     for (let i = 0; i < livesLeft; i++) {
-      lifeWidget = lifeWidget + lifeImage;
+      lifeWidget += lifeImage;
     }
 
     lifeHeaderNode.innerHTML = lifeWidget;
@@ -63,6 +63,13 @@ class GamePresenter {
     this.renderNextGame();
   }
 
+  disableAnsweredQuestion(itemClicked) {
+    this._answerNumberGiven++;
+    [...document.querySelectorAll(`INPUT[name = ${itemClicked}`)].forEach((x) => {
+      x.disabled = 'true';
+    });
+  }
+
   runNextGame(e) {
     let gamesArr = Application.gameData;
     if (gamesArr[this.gameModel.state.currentLevel].type === 'two-of-two') {
@@ -70,25 +77,16 @@ class GamePresenter {
       if (!this._answerNumberGiven) {
         this._answerNumberGiven = 0;
       }
-
       if (e.target.closest('.game__answer') && e.target.tagName === 'INPUT') {
 
         if (e.target.name === 'question1') {
-          this._answerNumberGiven++;
-          [...document.querySelectorAll('INPUT[name = "question1"]')].forEach((x) => {
-            x.disabled = 'true';
-          });
-
+          this.disableAnsweredQuestion(e.target.name);
           this._firstAnswer = (e.target.value === gamesArr[this.gameModel.state.currentLevel].answers[0].type);
 
         }
-        if (e.target.name === 'question2') {
-          e.target.disabled = 'true';
-          this._answerNumberGiven++;
-          [...document.querySelectorAll('INPUT[name = "question2"]')].forEach((x) => {
-            x.disabled = 'true';
-          });
 
+        if (e.target.name === 'question2') {
+          this.disableAnsweredQuestion(e.target.name);
           this._secondAnswer = (e.target.value === gamesArr[this.gameModel.state.currentLevel].answers[1].type);
         }
 
