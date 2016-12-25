@@ -2,8 +2,8 @@ const numberOfGames = 10;
 const numberOfLives = 3;
 const statsArr = [];
 
-
 const gameState = {
+  userName: '',
   currentLevel: 0,
   lifeNumber: 3,
   currentTime: 0

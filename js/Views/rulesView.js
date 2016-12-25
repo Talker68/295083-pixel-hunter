@@ -1,6 +1,7 @@
 import AbstractView from './abstractView';
 import Application from '../application';
 import {startTimer} from '../Services/startGame';
+import {gameModel} from '../Models/gameModels';
 
 
 class RulesView extends AbstractView {
@@ -32,7 +33,8 @@ class RulesView extends AbstractView {
 
   bindHandlers() {
     const rulesSubmit = this.element.querySelector('.rules__button');
-    this.element.querySelector('.rules__input').oninput = function () {
+    const inputElement = this.element.querySelector('.rules__input');
+    inputElement.oninput = function () {
       if (this.value) {
         rulesSubmit.removeAttribute('disabled');
       } else {
@@ -42,6 +44,7 @@ class RulesView extends AbstractView {
 
     const activeElement = this.element.querySelector('.rules__form');
     const showGameScreen = (e) => {
+      gameModel.state.userName = inputElement.value;
       e.preventDefault();
       Application.showGames();
       let firstLevel = Application.gameData[0];

@@ -1,7 +1,8 @@
 import {timer} from '../Services/startGame';
 import {numberOfGames, numberOfLives, statsArr} from '../Models/gameData';
 import Application from '../application';
-import {gameModel, statModel} from '../Models/gameModels';
+import {gameModel, statModel, uploadStatistics} from '../Models/gameModels';
+
 
 class GamePresenter {
   constructor(game) {
@@ -33,6 +34,13 @@ class GamePresenter {
 
     lifeHeaderNode.innerHTML = lifeWidget;
   }
+  prepareStatistics(statisticsArray, lifeNumberLeft){
+    let stats = statisticsArray.map((x) =>x.answerType);
+    let lives = lifeNumberLeft.state.lifeNumber;
+    let uploadObj = {stats, lives};
+    const userName= gameModel.state.userName;
+    uploadStatistics(userName, uploadObj);
+  }
 
   renderNextGame() {
     let gamesArr = Application.gameData;
@@ -48,6 +56,7 @@ class GamePresenter {
       const gameStatBarNode = document.querySelector('ul.stats');
       clearInterval(timer);
       let gameModelObj = this.gameModel;
+      this.prepareStatistics(statsArr, gameModelObj);
       Application.showStat({gameStatBarNode, statsArr, gameModelObj});
     }
   }
