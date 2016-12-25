@@ -55,6 +55,7 @@ class StatsView extends AbstractView {
         <td colspan="5" class="result__total  result__total--final">${this.gameScore.totalScore()}</td>
       </tr>
     </table>
+    <div class = "stat__history">
     <table class="result__table">
       <tr>
         <td class="result__number">2.</td>
@@ -107,6 +108,7 @@ class StatsView extends AbstractView {
         <td colspan="5" class="result__total  result__total--final">950</td>
       </tr>
     </table>
+    </div>
   </div>`;
   }
 }

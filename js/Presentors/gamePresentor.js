@@ -1,7 +1,7 @@
 import {timer} from '../Services/startGame';
 import {numberOfGames, numberOfLives, statsArr} from '../Models/gameData';
 import Application from '../application';
-import {gameModel, statModel, uploadStatistics} from '../Models/gameModels';
+import {gameModel, statModel, uploadStatistics, downloadStatistics} from '../Models/gameModels';
 
 
 class GamePresenter {
@@ -58,6 +58,7 @@ class GamePresenter {
       let gameModelObj = this.gameModel;
       this.prepareStatistics(statsArr, gameModelObj);
       Application.showStat({gameStatBarNode, statsArr, gameModelObj});
+      downloadStatistics(this.gameModel.state.userName);
     }
   }
 
