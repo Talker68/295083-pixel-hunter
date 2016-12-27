@@ -5,7 +5,7 @@ import createGameScreen from './Views/fullGameView';
 import createLevelScreen from './Views/levelView';
 import createStatsScreen from './Views/statsView';
 import createErrorScreen from './Views/errorView';
-import CreateHistroryScreen from './Views/historyView';
+import createHistroryScreen from './Views/historyView';
 import {metaData} from './Models/gameData';
 
 const mainElement = document.getElementById('main');
@@ -68,7 +68,7 @@ class Application {
   }
 
   static showHistory(response) {
-    renderHistory(CreateHistroryScreen(response));
+    renderHistory(createHistroryScreen(response));
   }
 }
 
