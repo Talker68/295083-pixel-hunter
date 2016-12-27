@@ -1,5 +1,4 @@
 import Application from './application';
-
 import 'whatwg-fetch';
 
 const url = 'https://intensive-ecmascript-server-nnpnvhhedl.now.sh/pixel-hunter/questions';

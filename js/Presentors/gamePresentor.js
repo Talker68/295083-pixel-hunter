@@ -1,11 +1,13 @@
 import {timer} from '../Services/startGame';
 import {numberOfGames, numberOfLives, statsArr} from '../Models/gameData';
 import Application from '../application';
-import {gameModel, statModel} from '../Models/gameModels';
+import {gameModel, statModel, uploadStatistics, downloadStatistics} from '../Models/gameModels';
+
 
 class GamePresenter {
   constructor(game) {
     this.gameModel = game;
+    this.checkTime();
   }
 
   renderGameStatBar(gameNumber) {
@@ -34,6 +36,14 @@ class GamePresenter {
     lifeHeaderNode.innerHTML = lifeWidget;
   }
 
+  prepareStatistics(statisticsArray, lifeNumberLeft) {
+    let stats = statisticsArray.map((x) =>x.answerType);
+    let lives = lifeNumberLeft.state.lifeNumber;
+    let uploadObj = {stats, lives};
+    const userName = gameModel.state.userName;
+    uploadStatistics(userName, uploadObj);
+  }
+
   renderNextGame() {
     let gamesArr = Application.gameData;
     if (this.gameModel.state.currentLevel < numberOfGames && this.gameModel.state.lifeNumber > 0) {
@@ -47,8 +57,11 @@ class GamePresenter {
       this.renderGameStatBar(this.gameModel.state.currentLevel - 1);
       const gameStatBarNode = document.querySelector('ul.stats');
       clearInterval(timer);
+      clearInterval(this.checkTimer);
       let gameModelObj = this.gameModel;
       Application.showStat({gameStatBarNode, statsArr, gameModelObj});
+      downloadStatistics(this.gameModel.state.userName);
+      this.prepareStatistics(statsArr, gameModelObj);
     }
   }
 
@@ -70,7 +83,16 @@ class GamePresenter {
     });
   }
 
+  checkTime() {
+    this.checkTimer = setInterval(() => {
+      if (this.gameModel.state.currentTime > 30) {
+        this.updateGameStats(false, this.gameModel.state.currentTime);
+      }
+    }, 1000);
+  }
+
   runNextGame(e) {
+
     let gamesArr = Application.gameData;
     if (gamesArr[this.gameModel.state.currentLevel].type === 'two-of-two') {
 
