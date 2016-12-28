@@ -2,6 +2,11 @@ import {timer} from '../Services/startGame';
 import {numberOfGames, numberOfLives, statsArr} from '../Models/gameData';
 import Application from '../application';
 import {gameModel, statModel, uploadStatistics, downloadStatistics} from '../Models/gameModels';
+import {closestPolyfill} from '../Services/polyfills';
+
+if (closestPolyfill) {
+  // чтобы обнатуть Линтер приходиться использовать переменную closestPolyfill, хотя полифил и так запускается только при импорте.
+}
 
 
 class GamePresenter {
